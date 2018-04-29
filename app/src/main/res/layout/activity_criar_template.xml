@@ -1,0 +1,56 @@
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="225dp">
+
+        <ImageView
+            android:id="@+id/formulario_foto"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/person"
+            android:background="#00A8EC"/>
+
+        <Button
+            android:id="@+id/formulario_botao_foto"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/fundo_camera"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"/>
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/formulario_maximo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor máximo spinner"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/formulario_minimo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor mínimo spinner"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/formulario_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:textColor="#FFFFFF"
+        android:background="#00A8EC"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
