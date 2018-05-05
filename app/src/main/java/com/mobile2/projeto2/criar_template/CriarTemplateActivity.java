@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
@@ -22,10 +23,7 @@ import butterknife.OnClick;
 
 public class CriarTemplateActivity extends AppCompatActivity implements CriarTemplateView {
 
-    @BindView(R.id.formulario_maximo)
-    public EditText campoMaximo;
-    @BindView(R.id.formulario_minimo)
-    public EditText campoMinimo;
+
     @BindView(R.id.formulario_foto)
     public ImageView campoFoto;
 
@@ -60,21 +58,25 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     }
 
     @OnClick(R.id.formulario_botao_foto)
+    public void addFoto(){
+        presenter.addFoto();
+    }
+
     public void tiraFoto(){
         Log.d("VOU TIRAR FOTO","TIRANDO");
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
         File arquivoFoto = new File(caminhoFoto);
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+        Uri fileUri = FileProvider.getUriForFile(this, "com.mobile2.Projeto2.fileprovider", arquivoFoto);
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
         startActivityForResult(intentCamera, CODIGO_CAMERA);
+
     }
 
     @OnClick(R.id.formulario_submit)
     public void salvar(){
         Intent resultado = new Intent().putExtra("template",
-                presenter.getTemplate(campoMaximo.getText().toString(),
-                        campoMinimo.getText().toString(),
-                        caminhoFoto));
+                presenter.getTemplate(caminhoFoto));
 
         setResult(Activity.RESULT_OK, resultado);
         finish();

@@ -29,19 +29,8 @@
     </RelativeLayout>
 
 
-    <EditText
-        android:id="@+id/formulario_maximo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Valor máximo spinner"
-        android:inputType="number" />
 
-    <EditText
-        android:id="@+id/formulario_minimo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Valor mínimo spinner"
-        android:inputType="number" />
+
 
     <Button
         android:id="@+id/formulario_submit"

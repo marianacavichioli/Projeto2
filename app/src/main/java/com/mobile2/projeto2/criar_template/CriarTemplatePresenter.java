@@ -9,16 +9,18 @@ public class CriarTemplatePresenter {
         this.view = view;
     }
 
-    public Template getTemplate(String maximo, String minimo, String caminhoFoto) {
+    public Template getTemplate(String caminhoFoto) {
         Template template = null;
 
-        if(!maximo.isEmpty() && !minimo.isEmpty()) {
+        if(!caminhoFoto.isEmpty()) {
             template = new Template();
-            template.setMaximo(maximo);
-            template.setMinimo(minimo);
             template.setCaminhoFoto(caminhoFoto);
         }
 
         return template;
+    }
+
+    public void addFoto() {
+        view.tiraFoto();
     }
 }

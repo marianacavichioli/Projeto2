@@ -17,7 +17,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".criar_template.CriarTemplateActivity"></activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.mobile2.Projeto2.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
 
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
 
 </manifest>
