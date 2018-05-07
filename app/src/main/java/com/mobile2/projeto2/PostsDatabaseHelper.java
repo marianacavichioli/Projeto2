@@ -1,8 +1,14 @@
 package com.mobile2.projeto2;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostsDatabaseHelper extends SQLiteOpenHelper {
 
@@ -23,6 +29,9 @@ public class PostsDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_USER_ID = "id";
     private static final String KEY_USER_NAME = "userName";
     private static final String KEY_USER_PROFILE_PICTURE_URL = "profilePictureUrl";
+
+    /* Error tag */
+    private static final String TAG = "ERROR: ";
 
     private static PostsDatabaseHelper sInstance;
 
