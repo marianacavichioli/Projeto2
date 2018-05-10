@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">Projeto2</string>
-    <string name="text_DigitePalavra">Digite uma palavra no formato: sílaba - sílaba - ? - sílaba</string>
-    <string name="hint_Tartaruga">tar - tar - ? - ga</string>
-    <string name="text_SilabaCorreta">Digite a sílaba que completa corretamente a palavra</string>
-    <string name="hint_SilabaCorreta">ru</string>
-    <string name="text_SilabaIncorreta">Digite outras duas sílabas</string>
-    <string name="hint_SilabaIncorreta1">lu</string>
-    <string name="hint_SilabaIncorreta2">gu</string>
+    <string name="text_DigitePalavra">Digite uma palavra no formato: sílaba/sílaba/sílaba</string>
+    <string name="hint_Tartaruga">tar/tar/ru/ga</string>
 </resources>

@@ -33,11 +33,11 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
 
     private CriarTemplatePresenter presenter;
 
-    private String palavra, silabaCorreta, silabaIncorreta1, silabaIncorreta2;
-    public EditText editText_Palavra, editText_SilabaCorreta, editText_SilabaIncorreta1, editText_SilabaIncorreta2;
+    private String palavra;
+    public EditText editText_Palavra;
 
 
-
+    private boolean fotoAnexada = false;
     private static final int CODIGO_CAMERA = 123;
     public String caminhoFoto;
 
@@ -51,15 +51,12 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         presenter = new CriarTemplatePresenter(this);
 
         editText_Palavra = findViewById(R.id.editText_Palavra);
-        editText_SilabaCorreta = findViewById(R.id.editText_SilabaCorreta);
-        editText_SilabaIncorreta1 = findViewById(R.id.editText_SilabaIncorreta1);
-        editText_SilabaIncorreta2 = findViewById(R.id.editText_SilabaIncorreta2);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODIGO_CAMERA && resultCode == Activity.RESULT_OK) {
+            fotoAnexada = true;
             exibeFoto();
         }
     }
@@ -92,9 +89,6 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     public void salvar(){
 
         palavra = editText_Palavra.getText().toString();
-        silabaCorreta = editText_SilabaCorreta.getText().toString();
-        silabaIncorreta1 = editText_SilabaIncorreta1.getText().toString();
-        silabaIncorreta2 = editText_SilabaIncorreta2.getText().toString();
 
         List<String> mensagens = validar();
 
@@ -105,14 +99,12 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
             setResult(Activity.RESULT_OK, resultado);
 
 
-
-
             showToast(palavra);
             finish();
         }
 
         else{
-            showErro(mensagens);
+            showToast(mensagens.get(0));
         }
 
     }
@@ -121,23 +113,16 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         Toast.makeText(CriarTemplateActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private void showErro(List<String> erro) {
-        Toast.makeText(CriarTemplateActivity.this, erro.get(0), Toast.LENGTH_SHORT).show();
-    }
-
     public List<String> validar(){
         List<String> mensagens = new ArrayList<String>();
+        if (!fotoAnexada){
+            mensagens.add("Uma foto deve ser adicionada");
+        }
         if (palavra.trim().length() == 0) {
-            mensagens.add("O primeiro campo deve ser preenchido");
+            mensagens.add("Uma palavra deve ser preenchida");
         }
-        if (silabaCorreta.trim().length() == 0) {
-            mensagens.add("O segundo campo deve ser preenchido");
-        }
-        if (silabaIncorreta1.trim().length() == 0) {
-            mensagens.add("O terceiro campo deve ser preenchido");
-        }
-        if (silabaIncorreta2.trim().length() == 0) {
-            mensagens.add("O quarto campo deve ser preenchido");
+        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false){
+            mensagens.add("Palavra só pode conter letras e barras / ");
         }
 
         return (mensagens.isEmpty() ? null : mensagens);

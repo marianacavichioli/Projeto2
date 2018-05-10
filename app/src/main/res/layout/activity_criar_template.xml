@@ -43,42 +43,6 @@
         android:hint="@string/hint_Tartaruga"
         android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/textView_SilabaCorreta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_SilabaCorreta" />
-
-    <EditText
-        android:id="@+id/editText_SilabaCorreta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hint_SilabaCorreta"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/textView_SilabaIncorreta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_SilabaIncorreta" />
-
-    <EditText
-        android:id="@+id/editText_SilabaIncorreta1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hint_SilabaIncorreta1"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/editText_SilabaIncorreta2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hint_SilabaIncorreta2"
-        android:inputType="textPersonName" />
-
     <Button
         android:id="@+id/formulario_submit"
         android:layout_width="wrap_content"
