@@ -9,9 +9,33 @@ import java.util.Random;
  */
 
 public class SyllableList {
-    private static String [] syl = {"da", "do", "ze", "bra"};
+    private static String[] syl = {
+            "a", "e", "i", "o", "u",
+            "pa", "pe", "pi", "po", "pu",
+            "ba", "be", "bi", "bo", "bu",
+            "ca", "ce", "ci", "co", "cu",
+            "ma", "me", "mi", "mo", "mu",
+            "na", "ne", "ni", "no", "nu",
+            "la", "le", "li", "lo", "lu",
+            "da", "de", "di", "do", "du",
+            "fa", "fe", "fi", "fo", "fu",
+            "ga", "ge", "gi", "go", "gu",
+            "ja", "je", "ji", "jo", "ju",
+            "que",
+            "ra", "re", "ri", "ro", "ru",
+            "sa", "se", "si", "so", "so",
+            "ta", "te", "ti", "to", "tu",
+            "va", "ve", "vi", "vo", "vu",
+            "bra", "sil",
+            "tar", "ga",
+            "gue"
+    };
 
-    public static Syllable getRandomSyllable(){
+    public static String[] getSyl() {
+        return syl;
+    }
+
+    public static Syllable getRandomSyllable() {
         int random = new Random().nextInt(syl.length);
         return new Syllable(syl[random]);
     }

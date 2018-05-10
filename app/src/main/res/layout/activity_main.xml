@@ -4,23 +4,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mobile2.projeto2.MainActivity">
-
-    <nl.dionsegijn.konfetti.KonfettiView
-        android:id="@+id/viewKonfetti"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.mobile2.projeto2.ui.customelements.SyllableSelectorLayout
-        android:id="@+id/arc_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:arc_origin="center"
-        app:arc_radius="168dp"
-        app:arc_axisRadius="120dp"
-        app:arc_freeAngle="false"
-        app:arc_reverseAngle="false"
-        >
-    </com.mobile2.projeto2.ui.customelements.SyllableSelectorLayout>
-
+    tools:context="com.mobile2.projeto2.activities.SyllableActivity.MainActivity">
 </android.support.constraint.ConstraintLayout>

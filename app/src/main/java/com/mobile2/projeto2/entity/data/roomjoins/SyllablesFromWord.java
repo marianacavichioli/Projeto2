@@ -2,6 +2,7 @@ package com.mobile2.projeto2.entity.data.roomjoins;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.support.annotation.NonNull;
 
 import com.mobile2.projeto2.entity.data.SyllableData;
 import com.mobile2.projeto2.entity.data.WordData;
@@ -16,6 +17,11 @@ import com.mobile2.projeto2.entity.data.WordData;
                          @ForeignKey(entity = SyllableData.class, parentColumns = "syllable", childColumns = "syllable")}
                          )
 public class SyllablesFromWord {
-    String word;
-    String syllable;
+    @NonNull public final String word;
+    @NonNull public final String syllable;
+
+    public SyllablesFromWord(String word, String syllable) {
+        this.word = word;
+        this.syllable = syllable;
+    }
 }
