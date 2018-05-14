@@ -4,4 +4,5 @@ public interface CriarTemplateView {
     void tiraFoto();
     void salvar();
 
+    void abrirGaleria();
 }

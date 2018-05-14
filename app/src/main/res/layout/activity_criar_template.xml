@@ -16,15 +16,26 @@
             android:layout_height="200dp"
             android:src="@drawable/person"
             android:background="#00A8EC"/>
-
-        <Button
-            android:id="@+id/formulario_botao_foto"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="@drawable/fundo_camera"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"/>
+            android:layout_alignParentRight="true">
+
+            <Button
+                android:id="@+id/formulario_botao_foto"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/fundo_camera"
+                android:layout_marginRight="16dp"/>
+
+            <Button
+                android:id="@+id/formulario_botao_galeria"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/fundo_camera"
+                android:layout_marginRight="16dp"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

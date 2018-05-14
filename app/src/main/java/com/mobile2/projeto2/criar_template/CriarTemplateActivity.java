@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+
 import com.mobile2.projeto2.MainActivity;
 import com.mobile2.projeto2.R;
 import com.squareup.picasso.Picasso;
@@ -40,6 +43,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     private boolean fotoAnexada = false;
     private static final int CODIGO_CAMERA = 123;
     public String caminhoFoto;
+    private int PICK_IMAGE_REQUEST = 1;
 
 
     @Override
@@ -59,6 +63,25 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
             fotoAnexada = true;
             exibeFoto();
         }
+        else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+//            fotoAnexada = true;
+//
+//            Uri uri = data.getData();
+//            String[] projection = { MediaStore.Images.Media.DATA };
+//
+//            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+//            cursor.moveToFirst();
+//
+//            Log.d("TAG", DatabaseUtils.dumpCursorToString(cursor));
+//
+//            int columnIndex = cursor.getColumnIndex(projection[0]);
+//            caminhoFoto = cursor.getString(columnIndex); // returns null
+//            cursor.close();
+//
+//            exibeFoto();
+
+        }
     }
 
     private void exibeFoto(){
@@ -75,7 +98,6 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     }
 
     public void tiraFoto(){
-        Log.d("VOU TIRAR FOTO","TIRANDO");
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
         File arquivoFoto = new File(caminhoFoto);
@@ -83,6 +105,19 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
         startActivityForResult(intentCamera, CODIGO_CAMERA);
 
+    }
+
+    @OnClick(R.id.formulario_botao_galeria)
+    public void acessarGaleria(){ presenter.acessarGaleria();}
+
+
+    public void abrirGaleria() {
+        Intent intentGaleria = new Intent();
+        // Show only images, no videos or anything else
+        intentGaleria.setType("image/*");
+        intentGaleria.setAction(Intent.ACTION_GET_CONTENT);
+        // Always show the chooser (if there are multiple options available)
+        startActivityForResult(Intent.createChooser(intentGaleria, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @OnClick(R.id.formulario_submit)
@@ -108,6 +143,8 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         }
 
     }
+
+
 
     private void showToast(String text){
         Toast.makeText(CriarTemplateActivity.this, text, Toast.LENGTH_SHORT).show();

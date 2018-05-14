@@ -23,4 +23,8 @@ public class CriarTemplatePresenter {
     public void addFoto() {
         view.tiraFoto();
     }
+
+    public void acessarGaleria() {
+        view.abrirGaleria();
+    }
 }
