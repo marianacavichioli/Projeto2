@@ -12,8 +12,8 @@ import java.util.List;
 
 public class Word extends AbstractWord {
 
-    public Word(String... syllables) {
-        super(syllables);
+    public Word(String imageFilePath, String... syllables) {
+        super(imageFilePath, syllables);
     }
 
     public Word(WordData wordData, List<SyllableData> syllables) {

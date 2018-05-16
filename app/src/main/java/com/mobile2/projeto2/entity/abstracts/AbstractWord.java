@@ -15,11 +15,11 @@ public abstract class AbstractWord {
     private WordData mWord;
     private List<Syllable> mSyllables = new ArrayList<>();
 
-    public AbstractWord(String... syllables) {
+    public AbstractWord(String imageFilePath, String... syllables) {
         for (String syllable : syllables) {
             mSyllables.add(new Syllable(syllable));
         }
-        this.mWord = new WordData(generateWord(mSyllables));
+        this.mWord = new WordData(imageFilePath, generateWord(mSyllables));
     }
 
     public AbstractWord(WordData wordData, List<SyllableData> syllables) {
