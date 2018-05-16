@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 import com.mobile2.projeto2.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,55 +71,38 @@ public class CriarTemplateActivity extends Activity implements CriarTemplateView
 
             fotoAnexada = true;
 
-            /*
-            // se necessario mais permissao
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (shouldShowRequestPermissionRationale(
-                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    // Explain to the user why we need to read the contacts
-                }
-
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PICK_IMAGE_REQUEST);
-
-            */ // colocar fecha } no final
-
-            /*
-            // Retorna nulo o caminho
-                Uri uri = data.getData();
-                String[] projection = { MediaStore.Images.Media.DATA };
-
-
-                Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-                cursor.moveToFirst();
-
-                Log.d("TAG", DatabaseUtils.dumpCursorToString(cursor));
-
-                int columnIndex = cursor.getColumnIndex(projection[0]);
-                caminhoFoto = cursor.getString(columnIndex); // returns null
-                cursor.close();
-
-                exibeFoto();
-                */
-
-            // Desse jeito funciona, mas nao consigo salvar o caminho da foto
-
             Uri uri = data.getData();
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
 
-                campoFoto.setImageBitmap(bitmap);
+                escreveImagens(bitmap);
+                exibeFoto();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
 
+    }
 
+
+    public void escreveImagens(Bitmap bmp){
+        try {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+            byte[] bytes = stream.toByteArray();
+            caminhoFoto = Environment.getExternalStorageDirectory().getAbsolutePath() + "/image.png";
+
+            FileOutputStream fos = new FileOutputStream(caminhoFoto);
+            fos.write(bytes);
+            fos.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void exibeFoto(){
