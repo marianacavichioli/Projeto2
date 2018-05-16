@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Projeto2.iml" filepath="$PROJECT_DIR$/Projeto2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/shinebuttonlib/shinebuttonlib.iml" filepath="$PROJECT_DIR$/shinebuttonlib/shinebuttonlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shinebuttonlib/shinebuttonlib.iml" filepath="$PROJECT_DIR$/shinebuttonlib/shinebuttonlib.iml" />
     </modules>
   </component>
 </project>

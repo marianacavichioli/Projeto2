@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.entity.Word;
+import com.mobile2.projeto2.repository.GeneralRepository;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -46,6 +48,7 @@ public class CriarTemplateActivity extends Activity implements CriarTemplateView
     private static final int CODIGO_CAMERA = 123;
     public String caminhoFoto;
     private int PICK_IMAGE_REQUEST = 1;
+
 
 
     @Override
@@ -152,11 +155,20 @@ public class CriarTemplateActivity extends Activity implements CriarTemplateView
             Intent resultado = new Intent().putExtra("template",
                     presenter.getTemplate(caminhoFoto));
 
-            setResult(Activity.RESULT_OK, resultado);
+
+            String[] silabas = palavra.split("/");
+            GeneralRepository.saveWord(new Word(silabas))
+                    .subscribe(() -> {
+                        setResult(Activity.RESULT_OK, resultado);
+                        showToast(palavra);
+                        finish();
+                    }, throwable -> {
+                        throwable.printStackTrace();
+                        setResult(RESULT_CANCELED);
+                        finish();
+                    });
 
 
-            showToast(palavra);
-            finish();
         }
 
         else{
