@@ -19,31 +19,31 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class GeneralRepository {
-    DatabaseDao databaseDao;
+    private static DatabaseDao databaseDao;
 
     public GeneralRepository() {
         this.databaseDao = Project2Application.getDatabase().getDao();
     }
 
-    public Single<Word> getWord(String word){
+    public static Single<Word> getWord(String word){
         return databaseDao.getWord(word)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Completable saveWord(Word word){
+    public static Completable saveWord(Word word){
         return Completable.fromAction(() -> databaseDao.insertWord(word))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<List<Word>> getAllWords(){
+    public static Single<List<Word>> getAllWords(){
         return databaseDao.getAllWords()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<List<Syllable>> getAllSyllables(){
+    public static Single<List<Syllable>> getAllSyllables(){
         return databaseDao.getAllSyllables()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
