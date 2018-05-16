@@ -1,25 +1,18 @@
-package com.mobile2.projeto2.criar_template;
+package com.mobile2.projeto2.activities.criar_template;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import android.database.Cursor;
 
 import com.mobile2.projeto2.R;
 import com.squareup.picasso.Picasso;
@@ -34,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class CriarTemplateActivity extends AppCompatActivity implements CriarTemplateView {
+public class CriarTemplateActivity extends Activity implements CriarTemplateView {
 
 
     @BindView(R.id.formulario_foto)

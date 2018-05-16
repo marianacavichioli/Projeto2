@@ -1,17 +1,18 @@
 package com.mobile2.projeto2.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.mobile2.projeto2.R;
-import com.mobile2.projeto2.criar_template.CriarTemplateActivity;
+import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends Activity{
 
     private final int CODIGO = 123;
 

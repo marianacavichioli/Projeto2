@@ -1,4 +1,4 @@
-package com.mobile2.projeto2.criar_template;
+package com.mobile2.projeto2.activities.criar_template;
 
 import com.mobile2.projeto2.entidades.Template;
 
