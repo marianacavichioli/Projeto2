@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Ajuda</string>
+
+    <string-array name="turma">
+        <item>A</item>
+        <item>B</item>
+    </string-array>
+
+    <string-array name="aluno">
+        <item>João</item>
+        <item>Juliana</item>
+    </string-array>
 </resources>
