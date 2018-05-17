@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Projeto2</string>
+    <string name="title_activity_activities_list">ActivitiesListActivity</string>
 </resources>

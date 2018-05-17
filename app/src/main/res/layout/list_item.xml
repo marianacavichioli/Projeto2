@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#e5e5e5"
+    android:orientation="horizontal"
+    android:id="@+id/container">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:src="@drawable/multiuser"
+        android:id="@+id/users_image"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="40"
+        android:paddingLeft="3dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome da atividade"
+            android:layout_marginBottom="-7dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textAllCaps="false"
+            android:id="@+id/atv_nome"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="descrição longa para ocupar muito espaço"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginBottom="4dp"
+            android:textStyle="italic"
+            android:id="@+id/atv_desc"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+
+            <TextView
+                android:id="@+id/tag_1"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:text="tag 1"
+                android:textSize="10dp"
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/tags"
+                android:layout_marginHorizontal="2dp"
+                android:backgroundTint="@android:color/holo_red_light"/>
+
+            <TextView
+                android:id="@+id/tag_2"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:text="tag 2"
+                android:textSize="10dp"
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/tags"
+                android:layout_marginHorizontal="2dp"
+                android:backgroundTint="@android:color/holo_red_light"/>
+
+            <TextView
+                android:id="@+id/tag_3"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:text="tag 3"
+                android:textSize="10dp"
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/tags"
+                android:layout_marginHorizontal="2dp"
+                android:backgroundTint="@android:color/holo_red_light"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:src="@drawable/one"
+        android:id="@+id/difficulty_image"/>
+
+</LinearLayout>
