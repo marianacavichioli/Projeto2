@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ajuda</string>
+    <string name="app_name">Iniciar Atividade</string>
 
     <string-array name="turma">
         <item>A</item>
