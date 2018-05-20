@@ -19,12 +19,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class GeneralRepository {
-
-    private static DatabaseDao databaseDao;
-
-    static {
-        databaseDao = Project2Application.getDatabase().getDao();
-    }
+    private final static DatabaseDao databaseDao = Project2Application.getDatabase().getDao();
 
     public static Single<Word> getWord(String word){
         return databaseDao.getWord(word)
