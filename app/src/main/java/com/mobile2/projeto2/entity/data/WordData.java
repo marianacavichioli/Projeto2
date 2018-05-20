@@ -15,9 +15,9 @@ public class WordData {
     private String imageFilePath;
     private String videoFilePath;
 
-    public WordData(String word) {
-        this.word = word;
-    }
+    //public WordData(String word) {
+    //    this.word = word;
+    //}
 
     public WordData(String word, String imageFilePath) {
         this.word = word;

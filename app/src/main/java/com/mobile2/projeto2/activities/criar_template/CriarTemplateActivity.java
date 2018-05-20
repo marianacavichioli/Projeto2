@@ -157,7 +157,7 @@ public class CriarTemplateActivity extends Activity implements CriarTemplateView
 
 
             String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(silabas))
+            GeneralRepository.saveWord(new Word(caminhoFoto,silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
                         showToast(palavra);
