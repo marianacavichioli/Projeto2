@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.entity.Atividade;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Light.NoTitleBar">
-        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.MainActivity" />
         <activity
             android:name=".activities.SyllableActivity.SyllableActivityActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -23,7 +23,8 @@
         </activity>
         <activity
             android:name=".activities.ActivitiesList.ActivitiesListActivity"
-            android:label="@string/title_activity_activities_list"></activity>
+            android:label="@string/title_activity_activities_list" />
+        <activity android:name=".activities.AddActivity.AddActivityActivity"></activity>
     </application>
 
 </manifest>

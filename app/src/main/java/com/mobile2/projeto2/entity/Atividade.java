@@ -1,4 +1,4 @@
-package com.mobile2.projeto2.activities.ActivitiesList;
+package com.mobile2.projeto2.entity;
 
 import java.io.Serializable;
 

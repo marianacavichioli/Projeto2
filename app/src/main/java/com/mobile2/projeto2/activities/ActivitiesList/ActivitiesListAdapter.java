@@ -1,16 +1,15 @@
 package com.mobile2.projeto2.activities.ActivitiesList;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.entity.Atividade;
 
 import java.util.List;
 
