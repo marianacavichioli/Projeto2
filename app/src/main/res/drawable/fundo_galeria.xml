@@ -10,5 +10,5 @@
                 android:right="14dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/ic_camera"/>
+    <item android:drawable="@drawable/ic_insert_photo" />
 </layer-list>

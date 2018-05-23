@@ -19,9 +19,11 @@ import com.mobile2.projeto2.entity.data.WordData;
 public class SyllablesFromWord {
     @NonNull public final String word;
     @NonNull public final String syllable;
+    public int position;
 
-    public SyllablesFromWord(String word, String syllable) {
+    public SyllablesFromWord(String word, String syllable, int position) {
         this.word = word;
         this.syllable = syllable;
+        this.position = position;
     }
 }

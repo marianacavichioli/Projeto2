@@ -30,6 +30,7 @@ public class Project2Application extends Application {
     public void onCreate() {
         super.onCreate();
         database = Room.databaseBuilder(this, ProjectDatabase.class, "database")
+                .fallbackToDestructiveMigration()
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

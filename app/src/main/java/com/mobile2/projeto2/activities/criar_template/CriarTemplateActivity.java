@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class CriarTemplateActivity extends Activity implements CriarTemplateView {
+public class CriarTemplateActivity extends AppCompatActivity implements CriarTemplateView {
 
 
     @BindView(R.id.formulario_foto)
@@ -69,8 +70,7 @@ public class CriarTemplateActivity extends Activity implements CriarTemplateView
         if (requestCode == CODIGO_CAMERA && resultCode == Activity.RESULT_OK) {
             fotoAnexada = true;
             exibeFoto();
-        }
-        else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             fotoAnexada = true;
 
@@ -96,13 +96,11 @@ public class CriarTemplateActivity extends Activity implements CriarTemplateView
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 
-            byte[] bytes = stream.toByteArray();
             caminhoFoto = Environment.getExternalStorageDirectory().getAbsolutePath() + "/image.png";
 
             FileOutputStream fos = new FileOutputStream(caminhoFoto);
-            fos.write(bytes);
+            fos.write(stream.toByteArray());
             fos.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
+import android.os.SystemClock;
 
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
@@ -35,7 +36,8 @@ public abstract class DatabaseDao {
 
     @Query("SELECT SyllableData.syllable FROM SyllableData " +
             "INNER JOIN SyllablesFromWord ON SyllableData.syllable = SyllablesFromWord.syllable " +
-            "WHERE SyllablesFromWord.word = :word")
+            "WHERE SyllablesFromWord.word = :word " +
+            "ORDER BY SyllablesFromWord.position ")
     public abstract Single<List<SyllableData>> getSyllablesFromWord(String word);
 
     @Query("SELECT WordData.* FROM WordData " +
@@ -55,9 +57,10 @@ public abstract class DatabaseDao {
     @Transaction
     public void insertWord(Word word) {
         insert(word.getData());
-        for (Syllable syllable : word.getSyllables()) {
+        for (int i = 0; i < word.syllableCount(); i++) {
+            Syllable syllable = word.getSyllableAt(i);
             insert(syllable.getData());
-            insert(new SyllablesFromWord(word.toString(), syllable.toString()));
+            insert(new SyllablesFromWord(word.toString(), syllable.toString(), i));
         }
     }
 

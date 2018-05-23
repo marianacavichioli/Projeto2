@@ -19,7 +19,7 @@ public abstract class AbstractWord {
         for (String syllable : syllables) {
             mSyllables.add(new Syllable(syllable));
         }
-        this.mWord = new WordData(imageFilePath, generateWord(mSyllables));
+        this.mWord = new WordData(generateWord(mSyllables),imageFilePath);
     }
 
     public AbstractWord(WordData wordData, List<SyllableData> syllables) {

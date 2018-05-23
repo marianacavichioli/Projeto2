@@ -33,7 +33,7 @@
                 android:id="@+id/formulario_botao_galeria"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:background="@drawable/fundo_camera"
+                android:background="@drawable/fundo_galeria"
                 android:layout_marginRight="16dp"/>
         </LinearLayout>
 
