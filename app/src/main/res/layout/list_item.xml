@@ -60,7 +60,7 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/tags"
                 android:layout_marginHorizontal="2dp"
-                android:backgroundTint="@android:color/holo_red_light"/>
+                />
 
             <TextView
                 android:id="@+id/tag_2"
@@ -72,8 +72,7 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:background="@drawable/tags"
-                android:layout_marginHorizontal="2dp"
-                android:backgroundTint="@android:color/holo_red_light"/>
+                android:layout_marginHorizontal="2dp"/>
 
             <TextView
                 android:id="@+id/tag_3"
@@ -85,8 +84,7 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:background="@drawable/tags"
-                android:layout_marginHorizontal="2dp"
-                android:backgroundTint="@android:color/holo_red_light"/>
+                android:layout_marginHorizontal="2dp"/>
         </LinearLayout>
 
     </LinearLayout>

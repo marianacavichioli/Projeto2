@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Projeto2</string>
     <string name="title_activity_activities_list">ActivitiesListActivity</string>
+    <string name="long_string">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Maecenas pharetra rhoncus eros eget molestie.
+        Proin quis viverra ex.
+        Cras lacus lacus, vehicula in nunc non, laoreet finibus velit.
+        Fusce eu tristique felis.
+        Nunc in nibh non dolor mattis luctus quis at ante.
+        Sed et pellentesque dui. Fusce est nisi, accumsan ac mattis elementum, tincidunt eget mi. Cras non maximus felis. In sapien lectus, bibendum in finibus nec, molestie volutpat nulla.
+    </string>
 </resources>

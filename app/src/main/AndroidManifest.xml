@@ -24,7 +24,8 @@
         <activity
             android:name=".activities.ActivitiesList.ActivitiesListActivity"
             android:label="@string/title_activity_activities_list" />
-        <activity android:name=".activities.AddActivity.AddActivityActivity"></activity>
+        <activity android:name=".activities.AddActivity.AddActivityActivity" />
+        <activity android:name=".activities.ShowActivity.ShowActivityActivity"></activity>
     </application>
 
 </manifest>
