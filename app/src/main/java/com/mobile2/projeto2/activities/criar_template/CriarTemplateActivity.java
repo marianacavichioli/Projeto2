@@ -1,5 +1,7 @@
 package com.mobile2.projeto2.activities.criar_template;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,12 +29,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
-
+@RuntimePermissions
 public class CriarTemplateActivity extends AppCompatActivity implements CriarTemplateView {
 
 
@@ -49,7 +55,6 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     private static final int CODIGO_CAMERA = 123;
     public String caminhoFoto;
     private int PICK_IMAGE_REQUEST = 1;
-
 
 
     @Override
@@ -69,7 +74,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODIGO_CAMERA && resultCode == Activity.RESULT_OK) {
             fotoAnexada = true;
-            exibeFoto();
+            CriarTemplateActivityPermissionsDispatcher.exibeFotoWithPermissionCheck(this);
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             fotoAnexada = true;
@@ -79,8 +84,8 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
-                escreveImagens(bitmap);
-                exibeFoto();
+                CriarTemplateActivityPermissionsDispatcher.escreveImagensWithPermissionCheck(this, bitmap);
+                CriarTemplateActivityPermissionsDispatcher.exibeFotoWithPermissionCheck(this);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -90,13 +95,13 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
 
     }
 
-
-    public void escreveImagens(Bitmap bmp){
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void escreveImagens(Bitmap bmp) {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 
-            caminhoFoto = Environment.getExternalStorageDirectory().getAbsolutePath() + "/image.png";
+            caminhoFoto = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".png";
 
             FileOutputStream fos = new FileOutputStream(caminhoFoto);
             fos.write(stream.toByteArray());
@@ -106,33 +111,36 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         }
     }
 
-    private void exibeFoto(){
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void exibeFoto() {
         Picasso.with(this)
-                .load("file://"+caminhoFoto)
+                .load("file://" + caminhoFoto)
                 .fit()
                 .centerCrop()
                 .into(campoFoto);
     }
 
     @OnClick(R.id.formulario_botao_foto)
-    public void addFoto(){
-        presenter.addFoto();
+    public void addFoto() {
+        CriarTemplateActivityPermissionsDispatcher.tiraFotoWithPermissionCheck(this);
     }
 
-    public void tiraFoto(){
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void tiraFoto() {
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
         File arquivoFoto = new File(caminhoFoto);
         Uri fileUri = FileProvider.getUriForFile(this, "com.mobile2.Projeto2.fileprovider", arquivoFoto);
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(intentCamera, CODIGO_CAMERA);
-
     }
 
     @OnClick(R.id.formulario_botao_galeria)
-    public void acessarGaleria(){ presenter.acessarGaleria();}
+    public void acessarGaleria() {
+        CriarTemplateActivityPermissionsDispatcher.abrirGaleriaWithPermissionCheck(this);
+    }
 
-
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void abrirGaleria() {
         Intent intentGaleria = new Intent();
         // Show only images, no videos or anything else
@@ -142,8 +150,9 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         startActivityForResult(Intent.createChooser(intentGaleria, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    @SuppressLint("CheckResult")
     @OnClick(R.id.formulario_submit)
-    public void salvar(){
+    public void salvar() {
 
         palavra = editText_Palavra.getText().toString();
 
@@ -155,7 +164,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
 
 
             String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(caminhoFoto,silabas))
+            GeneralRepository.saveWord(new Word(caminhoFoto, silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
                         showToast(palavra);
@@ -165,31 +174,29 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
                         setResult(RESULT_CANCELED);
                         finish();
                     });
-
-
-        }
-
-        else{
+        } else {
             showToast(mensagens.get(0));
         }
-
     }
 
+    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    public void onPermissionDenied(){
+        showToast("Permissão necessaria.");
+    }
 
-
-    private void showToast(String text){
+    private void showToast(String text) {
         Toast.makeText(CriarTemplateActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
-    public List<String> validar(){
+    public List<String> validar() {
         List<String> mensagens = new ArrayList<String>();
-        if (!fotoAnexada){
+        if (!fotoAnexada) {
             mensagens.add("Uma foto deve ser adicionada");
         }
         if (palavra.trim().length() == 0) {
             mensagens.add("Uma palavra deve ser preenchida");
         }
-        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false){
+        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false) {
             mensagens.add("Palavra só pode conter letras e barras / ");
         }
 

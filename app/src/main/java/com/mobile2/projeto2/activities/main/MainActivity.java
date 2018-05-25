@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
+import com.mobile2.projeto2.activities.wordselector_activity.WordSelectorActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mButtonGoToManagement.setOnClickListener(v -> goToActivity(CriarTemplateActivity.class));
-        mButtonGoToActivities.setOnClickListener(v -> goToActivity(SyllableActivityActivity.class));
+        mButtonGoToActivities.setOnClickListener(v -> goToActivity(WordSelectorActivity.class));
     }
 
     private void goToActivity(Class activity) {

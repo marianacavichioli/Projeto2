@@ -12,7 +12,7 @@ import com.mobile2.projeto2.entity.Word;
 public interface SyllableActivityInterface {
 
     public interface View {
-        void addRightButton(Syllable syllable, int indexInTheWord);
+        void addRightButton(Syllable syllable);
 
         void addWrongButton(Syllable syllable);
 

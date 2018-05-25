@@ -20,7 +20,6 @@
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@android:color/holo_blue_bright"
         app:layout_constraintBottom_toTopOf="@id/activity_templateOne_exec_answer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,9 +27,8 @@
 
     <LinearLayout
         android:id="@+id/activity_templateOne_exec_answer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/activity_templateOne_exec_syllableSelector"

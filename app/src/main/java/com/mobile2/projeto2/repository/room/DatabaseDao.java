@@ -89,4 +89,11 @@ public abstract class DatabaseDao {
                 .toList();
     }
 
+    public Single<List<Word>> getAllWordsWithImages() {
+        return getAllWordsString()
+                .flatMapObservable(Observable::fromIterable)
+                .flatMapSingle(this::getWord)
+                .filter(word -> word.getImageFilePath() != null && !word.getImageFilePath().isEmpty())
+                .toList();
+    }
 }
