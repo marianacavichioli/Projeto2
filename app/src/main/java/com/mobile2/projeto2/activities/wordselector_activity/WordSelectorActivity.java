@@ -12,6 +12,7 @@ import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivit
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +27,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     LinearLayoutManager mLinearLayoutManager;
     WordAdapter mAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     @Override
     public void setWordList(List<Word> wordList) {
-        mAdapter = new WordAdapter(wordList, this::goToSyllableActivity);
+        mAdapter = new WordAdapter(wordList);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -57,4 +59,5 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
     public void onError(String message) {
         finish();
     }
+
 }
