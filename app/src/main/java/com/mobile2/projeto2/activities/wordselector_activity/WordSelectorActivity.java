@@ -53,10 +53,14 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void goToSyllableActivity(Word item) {
-        Intent intent = new Intent(this, SyllableActivityActivity.class);
-        intent.putExtra(Constans.EXTRA_WORD_STRING, item.toString());
-        startActivity(intent);
+    private void goToSyllableActivity(List<Word> itemList){
+        Intent[] intents = new Intent[itemList.size()];
+        for(int i=0;i<itemList.size();i++){
+            Intent intent = new Intent(this, SyllableActivityActivity.class);
+            intent.putExtra(Constans.EXTRA_WORD_STRING, itemList.get(i).toString());
+            intents[i] = intent;
+        }
+        startActivities(intents);
     }
 
     @Override
@@ -70,7 +74,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
             Toast.makeText(WordSelectorActivity.this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(WordSelectorActivity.this, "Vamos iniciar", Toast.LENGTH_SHORT).show();
+            goToSyllableActivity(mAdapter.getSellectedWords());
         }
     }
 
