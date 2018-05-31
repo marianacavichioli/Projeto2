@@ -43,6 +43,10 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
         holder.mTextViewWord.setText(mWordList.get(position).toString());
     }
 
+    public List<Word> getSellectedWords() {
+        return sellectedWords;
+    }
+
     @Override
     public int getItemCount() {
         return mWordList != null ? mWordList.size() : 0;

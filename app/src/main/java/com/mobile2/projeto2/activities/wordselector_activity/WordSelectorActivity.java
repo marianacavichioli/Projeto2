@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
@@ -17,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WordSelectorActivity extends AppCompatActivity implements WordSelectorInterface.View {
 
@@ -59,5 +63,16 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
     public void onError(String message) {
         finish();
     }
+
+    @OnClick(R.id.btn_iniciar)
+    public void iniciar() {
+        if(mAdapter.getSellectedWords().isEmpty()){
+            Toast.makeText(WordSelectorActivity.this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(WordSelectorActivity.this, "Vamos iniciar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }
