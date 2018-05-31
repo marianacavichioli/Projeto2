@@ -16,6 +16,7 @@ import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,11 +54,12 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void goToSyllableActivity(List<Word> itemList){
-        Intent[] intents = new Intent[itemList.size()];
-        for(int i=0;i<itemList.size();i++){
+    private void goToSyllableActivity(List<Word> sellectedWList){
+        Collections.shuffle(sellectedWList); // embaralhando as palavras
+        Intent[] intents = new Intent[sellectedWList.size()];
+        for(int i=0;i<sellectedWList.size();i++){
             Intent intent = new Intent(this, SyllableActivityActivity.class);
-            intent.putExtra(Constans.EXTRA_WORD_STRING, itemList.get(i).toString());
+            intent.putExtra(Constans.EXTRA_WORD_STRING, sellectedWList.get(i).toString());
             intents[i] = intent;
         }
         startActivities(intents);
