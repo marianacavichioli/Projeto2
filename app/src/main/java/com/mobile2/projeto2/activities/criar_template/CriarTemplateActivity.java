@@ -63,18 +63,23 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         setContentView(R.layout.activity_criar_template);
 
         ButterKnife.bind(this);
-        presenter = new CriarTemplatePresenter(this);
+        presenter = new CriarTemplatePresenter(this, this);
 
         editText_Palavra = findViewById(R.id.editText_Palavra);
     }
+
+
 
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == CODIGO_CAMERA && resultCode == Activity.RESULT_OK) {
+
             fotoAnexada = true;
             CriarTemplateActivityPermissionsDispatcher.exibeFotoWithPermissionCheck(this);
+
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             fotoAnexada = true;
@@ -92,24 +97,14 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
             }
 
         }
-
     }
+
 
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
     public void escreveImagens(Bitmap bmp) {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-            caminhoFoto = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".png";
-
-            FileOutputStream fos = new FileOutputStream(caminhoFoto);
-            fos.write(stream.toByteArray());
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        presenter.escreveAsImagens(bmp,caminhoFoto);
     }
+
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
     public void exibeFoto() {
@@ -150,18 +145,18 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         startActivityForResult(Intent.createChooser(intentGaleria, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+
     @SuppressLint("CheckResult")
     @OnClick(R.id.formulario_submit)
     public void salvar() {
 
         palavra = editText_Palavra.getText().toString();
 
-        List<String> mensagens = validar();
+        List<String> mensagens = presenter.validar(fotoAnexada, palavra);
 
         if (mensagens == null) {
             Intent resultado = new Intent().putExtra("template",
                     presenter.getTemplate(caminhoFoto));
-
 
             String[] silabas = palavra.split("/");
             GeneralRepository.saveWord(new Word(caminhoFoto, silabas))
@@ -188,19 +183,6 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         Toast.makeText(CriarTemplateActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
-    public List<String> validar() {
-        List<String> mensagens = new ArrayList<String>();
-        if (!fotoAnexada) {
-            mensagens.add("Uma foto deve ser adicionada");
-        }
-        if (palavra.trim().length() == 0) {
-            mensagens.add("Uma palavra deve ser preenchida");
-        }
-        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false) {
-            mensagens.add("Palavra só pode conter letras e barras / ");
-        }
 
-        return (mensagens.isEmpty() ? null : mensagens);
-    }
 
 }
