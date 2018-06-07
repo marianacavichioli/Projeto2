@@ -1,0 +1,67 @@
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="225dp">
+
+        <ImageView
+            android:id="@+id/formulario_video"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#00A8EC"
+            android:src="@drawable/person" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+
+            <Button
+                android:id="@+id/formulario_botao_video"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/fundo_camera" />
+
+            <Button
+                android:id="@+id/formulario_botao_galeria"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/fundo_galeria"
+                android:layout_marginRight="16dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/textView_PalavraVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_DigitePalavraVideo" />
+
+    <EditText
+        android:id="@+id/editText_PalavraVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_TartarugaVideo"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/formulario_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="#00A8EC"
+        android:text="Salvar"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
