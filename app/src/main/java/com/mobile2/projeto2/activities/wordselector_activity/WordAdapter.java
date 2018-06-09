@@ -2,15 +2,18 @@ package com.mobile2.projeto2.activities.wordselector_activity;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.interfaces.ItemSelectedCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,11 +22,10 @@ import butterknife.ButterKnife;
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder> {
 
     private List<Word> mWordList;
-    private ItemSelectedCallback<Word> mCallback;
+    private List<Word> sellectedWords = new ArrayList<>();
 
-    public WordAdapter(List<Word> wordList, ItemSelectedCallback<Word> callback) {
+    public WordAdapter(List<Word> wordList) {
         this.mWordList = wordList;
-        this.mCallback = callback;
         this.setHasStableIds(true);
     }
 
@@ -41,6 +43,10 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
         holder.mTextViewWord.setText(mWordList.get(position).toString());
     }
 
+    public List<Word> getSellectedWords() {
+        return sellectedWords;
+    }
+
     @Override
     public int getItemCount() {
         return mWordList != null ? mWordList.size() : 0;
@@ -51,11 +57,23 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
         @BindView(R.id.text_view_item_word)
         TextView mTextViewWord;
 
+        @BindView(R.id.checkBox)
+        CheckBox checkBox;
+
         public WordViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            mTextViewWord.setOnClickListener( v -> mCallback.onItemSelected(mWordList.get(getAdapterPosition())));
+            checkBox.setOnClickListener( v -> {
+                if (checkBox.isChecked()){
+                    sellectedWords.add(mWordList.get(getAdapterPosition()));
+                    Log.d("LISTA DE SELECIONADOS", "adicionando");
+                }
+                else{
+                    sellectedWords.remove(mWordList.get(getAdapterPosition()));
+                    Log.d("LISTA DE SELECIONADOS", "removendo");
+                }
+            });
         }
     }
 }

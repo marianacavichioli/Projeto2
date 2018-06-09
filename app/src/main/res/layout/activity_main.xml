@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_constraintVertical_chainStyle="spread"
-    tools:context="com.mobile2.projeto2.activities.main.MainActivity">
+    tools:context="com.mobile2.projeto2.activities.main.MainActivity"
+    android:background="@color/backgroundColor">
 
     <Button
         android:id="@+id/main_button_management"

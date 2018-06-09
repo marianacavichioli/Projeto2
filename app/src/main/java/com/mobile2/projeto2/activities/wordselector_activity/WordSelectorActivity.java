@@ -6,16 +6,22 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WordSelectorActivity extends AppCompatActivity implements WordSelectorInterface.View {
 
@@ -26,6 +32,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     LinearLayoutManager mLinearLayoutManager;
     WordAdapter mAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,18 +50,35 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     @Override
     public void setWordList(List<Word> wordList) {
-        mAdapter = new WordAdapter(wordList, this::goToSyllableActivity);
+        mAdapter = new WordAdapter(wordList);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void goToSyllableActivity(Word item) {
-        Intent intent = new Intent(this, SyllableActivityActivity.class);
-        intent.putExtra(Constans.EXTRA_WORD_STRING, item.toString());
-        startActivity(intent);
+    private void goToSyllableActivity(List<Word> sellectedWList){
+        Collections.shuffle(sellectedWList); // embaralhando as palavras
+        Intent[] intents = new Intent[sellectedWList.size()];
+        for(int i=0;i<sellectedWList.size();i++){
+            Intent intent = new Intent(this, SyllableActivityActivity.class);
+            intent.putExtra(Constans.EXTRA_WORD_STRING, sellectedWList.get(i).toString());
+            intents[i] = intent;
+        }
+        startActivities(intents);
     }
 
     @Override
     public void onError(String message) {
         finish();
     }
+
+    @OnClick(R.id.btn_iniciar)
+    public void iniciar() {
+        if(mAdapter.getSellectedWords().isEmpty()){
+            Toast.makeText(WordSelectorActivity.this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            goToSyllableActivity(mAdapter.getSellectedWords());
+        }
+    }
+
+
 }

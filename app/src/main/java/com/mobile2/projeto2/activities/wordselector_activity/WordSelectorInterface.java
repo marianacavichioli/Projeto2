@@ -2,6 +2,7 @@ package com.mobile2.projeto2.activities.wordselector_activity;
 
 import com.mobile2.projeto2.entity.Word;
 
+import java.util.ArrayList;
 import java.util.List;
 
 interface WordSelectorInterface {
@@ -14,5 +15,6 @@ interface WordSelectorInterface {
         void setWordList(List<Word> wordList);
 
         void onError(String message);
+
     }
 }
