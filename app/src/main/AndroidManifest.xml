@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
     <application
         android:name="com.mobile2.projeto2.Project2Application"
         android:allowBackup="true"
@@ -28,6 +30,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.wordselector_activity.WordSelectorActivity" />
+        <activity android:name=".activities.management.ManagementActivity" />
+        <activity android:name=".activities.choosetemplate.ChooseTemplateActivity" />
+        <activity android:name=".activities.criar_template_video.CriarTemplateActivityVideo" />
+        <activity android:name=".activities.video_activity.VideoActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -1,4 +1,4 @@
-package com.mobile2.projeto2.activities.criar_template_video.;
+package com.mobile2.projeto2.activities.criar_template_video;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,16 +14,22 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.VideoView;
 
+import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
+import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.mobile2.projeto2.R;
-import com.mobile2.projeto2.activities.criar_template_video.CriarTemplateVideoPresenter;
-import com.mobile2.projeto2.activities.criar_template_video.CriarTemplateVideoView;
+import com.mobile2.projeto2.activities.main.MainActivity;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.repository.GeneralRepository;
-import com.squareup.picasso.Picasso;
+import com.mobile2.projeto2.util.FilePath;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,9 +49,14 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class CriarTemplateActivityVideo extends AppCompatActivity implements CriarTemplateVideoView {
 
+    static final int REQUEST_VIDEO_CAPTURE = 1;
 
     @BindView(R.id.formulario_video)
-    public ImageView campoVideo;
+    VideoView campoVideo;
+    @BindView(R.id.progressBar)
+    ProgressBar videoCompressProgressBar;
+    private FFmpeg ffmpeg;
+
 
     private CriarTemplateVideoPresenter presenter;
 
@@ -55,7 +66,8 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
 
     private boolean videoAnexado = false;
     private static final int CODIGO_CAMERA = 123;
-    public String caminhoVideo;
+    public String caminhoVideo =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".mp4";
+    public String caminhoVideoComprimido =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + "-compressed.mp4";
     private int PICK_IMAGE_REQUEST = 1;
 
 
@@ -68,58 +80,18 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
         presenter = new CriarTemplateVideoPresenter(this);
 
         editText_PalavraVideo = findViewById(R.id.editText_PalavraVideo);
+        loadFFMpegBinary();
+        campoVideo.setOnPreparedListener( mp -> mp.setLooping(true));
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODIGO_CAMERA && resultCode == Activity.RESULT_OK) {
-            videoAnexado = true;
-            CriarTemplateActivityVideoPermissionsDispatcher.exibeVideoWithPermissionCheck(this);
-        } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            videoAnexado = true;
-
-            Uri uri = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-
-                CriarTemplateActivityVideoPermissionsDispatcher.escreveImagensWithPermissionCheck(this, bitmap);
-                CriarTemplateActivityVideoPermissionsDispatcher.exibeVideoWithPermissionCheck(this);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+        if (resultCode == RESULT_OK) {
+            String command[] = {"-y", "-i", caminhoVideo , "-an",  "-s", "640x480", "-r", "25", "-vcodec", "mpeg4", "-b:v", "150k", caminhoVideoComprimido};
+            execFFmpegBinary(command);
         }
-
-    }
-
-    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
-    public void escreveVideo(Bitmap bmp) {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-            caminhoVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".png";
-
-            FileOutputStream fos = new FileOutputStream(caminhoVideo);
-            fos.write(stream.toByteArray());
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
-    public void exibeVideo() {
-        Picasso.with(this)
-                .load("file://" + caminhoVideo)
-                .fit()
-                .centerCrop()
-                .into(campoVideo);
     }
 
     @OnClick(R.id.formulario_botao_video)
@@ -127,14 +99,15 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
         CriarTemplateActivityVideoPermissionsDispatcher.tiraVideoWithPermissionCheck(this);
     }
 
-    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE})
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void tiraVideo() {
-        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        caminhoVideo = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         File arquivoVideo = new File(caminhoVideo);
         Uri fileUri = FileProvider.getUriForFile(this, "com.mobile2.Projeto2.fileprovider", arquivoVideo);
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intentCamera, CODIGO_CAMERA);
+        takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+        }
     }
 
     @OnClick(R.id.formulario_botao_galeria)
@@ -146,7 +119,7 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
     public void abrirGaleria() {
         Intent intentGaleria = new Intent();
         // Show only images, no videos or anything else
-        intentGaleria.setType("image/*");
+        intentGaleria.setType("video/*");
         intentGaleria.setAction(Intent.ACTION_GET_CONTENT);
         // Always show the chooser (if there are multiple options available)
         startActivityForResult(Intent.createChooser(intentGaleria, "Select Picture"), PICK_IMAGE_REQUEST);
@@ -161,12 +134,11 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
         List<String> mensagens = validar();
 
         if (mensagens == null) {
-            Intent resultado = new Intent().putExtra("template",
-                    presenter.getTemplate(caminhoVideo));
+            Intent resultado = new Intent().putExtra("template", caminhoVideoComprimido);
 
 
             String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(caminhoVideo, silabas))
+            GeneralRepository.saveWord(new Word(null, caminhoVideoComprimido, silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
                         showToast(palavra);
@@ -182,7 +154,7 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
     }
 
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public void onPermissionDenied(){
+    public void onPermissionDenied() {
         showToast("Permissão necessaria.");
     }
 
@@ -198,11 +170,75 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
         if (palavra.trim().length() == 0) {
             mensagens.add("Uma palavra deve ser preenchida");
         }
-        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF]*$") == false) {
+        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false) {
             mensagens.add("Palavra só pode conter letras");
         }
 
         return (mensagens.isEmpty() ? null : mensagens);
+    }
+
+
+    private void loadFFMpegBinary() {
+        try {
+            if (ffmpeg == null) {
+                ffmpeg = FFmpeg.getInstance(this);
+            }
+            ffmpeg.loadBinary(new LoadBinaryResponseHandler() {
+                @Override
+                public void onFailure() {
+                    Log.d("VIDEO", "LOAD FAIL ");
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    Log.d("VIDEO", "LOAD SUCCESS ");
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void execFFmpegBinary(final String[] command) {
+        try {
+            ffmpeg.execute(command, new ExecuteBinaryResponseHandler() {
+                @Override
+                public void onFailure(String s) {
+                    Log.d("VIDEO", "FAIL: " + s);
+                }
+
+                @Override
+                public void onSuccess(String s) {
+                    videoCompressProgressBar.setVisibility(View.GONE);
+                    videoAnexado = true;
+                    File videoFile = new File(caminhoVideo);
+                    videoFile.delete();
+                    campoVideo.setVideoURI(Uri.parse("file://" + caminhoVideoComprimido));
+                    campoVideo.start();
+                }
+
+                @Override
+                public void onProgress(String s) {
+                    Log.d("VIDEO", "PROGRESS: " + s);
+
+                }
+
+                @Override
+                public void onStart() {
+                    Log.d("VIDEO", "STARTED ");
+                    videoCompressProgressBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            });
+        } catch (FFmpegCommandAlreadyRunningException e) {
+            e.printStackTrace();
+        }
     }
 
 }

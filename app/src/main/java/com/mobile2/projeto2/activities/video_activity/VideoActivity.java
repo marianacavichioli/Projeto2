@@ -1,4 +1,4 @@
-package com.mobile2.projeto2.activities.syllable_activity;
+package com.mobile2.projeto2.activities.video_activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,20 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityInterface;
+import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityPresenter;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
-import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,34 +34,26 @@ import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 import tyrantgit.explosionfield.ExplosionField;
 
-/**
- * Created by cesar on 5/5/2018.
- */
-
-public class SyllableActivityActivity extends AppCompatActivity implements SyllableActivityInterface.View {
-
+public class VideoActivity extends AppCompatActivity implements VideoActivityInterface.View {
     ExplosionField mExplosionField;
     @BindView(R.id.viewKonfetti)
     KonfettiView mKonfettiView;
     @BindView(R.id.activity_exec_alternatives)
-    GridLayout mSyllableButtonsContainer;
+    LinearLayout mAlternativesButtonsContainer;
     @BindView(R.id.activity_exec_asset)
-    ImageView mImageView;
-    @BindView(R.id.activity_exec_answer)
-    LinearLayout mSyllableAnswerContainer;
+    VideoView mVideoView;
 
-    SyllableActivityInterface.Presenter mPresenter;
+    VideoActivityInterface.Presenter mPresenter;
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    int rightCounter;
-    private int totalSyllabes;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_template_one_exec);
+        setContentView(R.layout.activity_template_two_exec);
         ButterKnife.bind(this);
         mExplosionField = ExplosionField.attach2Window(this);
-        mPresenter = new SyllableActivityPresenter(this);
+        mPresenter = new VideoActivityPresenter(this);
+        mVideoView.setOnPreparedListener(mp -> mp.setLooping(true));
 
         Intent extras = getIntent();
         if (extras != null) {
@@ -84,34 +75,16 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
     }
 
     @Override
-    public void addRightButton(final Syllable syllable) {
-        final Button button = generateButton(syllable.toString());
+    public void addRightButton(String word) {
+        final Button button = generateButton(word);
         button.setOnClickListener(view -> {
             blowKonfetti(view);
-            showAnswerClicked(syllable);
-            if (rightCounter >= totalSyllabes) {
-                blowKonfetti(mSyllableAnswerContainer);
-                mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::finish));
-            }
-            view.setVisibility(View.INVISIBLE);
+            mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::finish));
             view.setClickable(false);
         });
-        mSyllableButtonsContainer.addView(button);
-    }
-
-    private void showAnswerClicked(Syllable syllable) {
-        for (int i = 0; i < mSyllableAnswerContainer.getChildCount(); i++) {
-            TextView textView = mSyllableAnswerContainer.getChildAt(i).findViewById(R.id.text);
-            String text = textView.getText().toString();
-            if (mSyllableAnswerContainer.getChildAt(i).findViewById(R.id.text).getVisibility() != View.VISIBLE &&
-                    text.equalsIgnoreCase(syllable.toString())) {
-                textView.setVisibility(View.VISIBLE);
-                rightCounter++;
-                break;
-            }
-        }
+        mAlternativesButtonsContainer.addView(button);
     }
 
     private Button generateButton(String s) {
@@ -125,7 +98,7 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
     }
 
 
-    private void blowKonfetti(View view) {
+    private void blowKonfetti(android.view.View view) {
         int[] position = new int[2];
         view.getLocationOnScreen(position);
         mKonfettiView.build()
@@ -141,47 +114,19 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
     }
 
     @Override
-    public void addWrongButton(Syllable syllable) {
-        Button button = generateButton(syllable.toString());
+    public void addWrongButton(String word) {
+        Button button = generateButton(word);
         button.setOnClickListener(view -> {
             mExplosionField.explode(view);
             button.setClickable(false);
         });
-        mSyllableButtonsContainer.addView(button);
-    }
-
-    @Override
-    public void setWord(Word word) {
-        this.totalSyllabes = word.syllableCount();
-        for (Syllable syllable : word.getSyllables()) {
-            mSyllableAnswerContainer.addView(generateAnswer(syllable.toString()));
-        }
-    }
-
-    private View generateAnswer(String s) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.item_syllable_answer, null, false);
-        TextView textView = view.findViewById(R.id.text);
-        textView.setAllCaps(true);
-        textView.setText(s);
-        textView.setClickable(false);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32);
-        textView.setVisibility(View.INVISIBLE);
-        return view;
+        mAlternativesButtonsContainer.addView(button);
     }
 
     @Override
     public void setAsset(Uri uri) {
-        try {
-            Picasso.with(this)
-                    .load(uri)
-                    .fit()
-                    .centerCrop()
-                    .into(mImageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            finish();
-        }
+        mVideoView.setVideoURI(uri);
+        mVideoView.start();
     }
 
     @Override
@@ -189,4 +134,5 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         finish();
     }
+
 }

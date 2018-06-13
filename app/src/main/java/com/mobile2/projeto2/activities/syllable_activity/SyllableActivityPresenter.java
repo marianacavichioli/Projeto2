@@ -11,9 +11,8 @@ import com.mobile2.projeto2.util.SyllableList;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Random;
 
 /**
  * Created by cesar on 5/6/2018.
@@ -37,7 +36,7 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
                     this.mWord = word;
                     setupForWord();
                     mView.setWord(word);
-                    mView.setImage(Uri.fromFile(new File(word.getImageFilePath())));
+                    mView.setAsset(Uri.fromFile(new File(word.getImageFilePath())));
                 }, throwable -> {
                     throwable.printStackTrace();
                     mView.onError(throwable.getMessage());

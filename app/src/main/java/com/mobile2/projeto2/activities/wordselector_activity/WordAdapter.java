@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Word;
-import com.mobile2.projeto2.util.interfaces.ItemSelectedCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,8 @@ import butterknife.ButterKnife;
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder> {
 
     private List<Word> mWordList;
-    private List<Word> sellectedWords = new ArrayList<>();
+    private List<Word> sellectedWordsForImage = new ArrayList<>();
+    private List<Word> sellectedWordsForVideo = new ArrayList<>();
 
     public WordAdapter(List<Word> wordList) {
         this.mWordList = wordList;
@@ -40,11 +40,29 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
-        holder.mTextViewWord.setText(mWordList.get(position).toString());
+        Word word = mWordList.get(position);
+
+        holder.mTextViewWord.setText(word.toString());
+        if (isValid(word.getImageFilePath())) {
+            holder.imageCheckBox.setVisibility(View.VISIBLE);
+            holder.imageCheckBox.setClickable(true);
+        }
+        if (isValid(word.getVideoFilePath())) {
+            holder.videoCheckBox.setVisibility(View.VISIBLE);
+            holder.videoCheckBox.setClickable(true);
+        }
     }
 
-    public List<Word> getSellectedWords() {
-        return sellectedWords;
+    private boolean isValid(String string) {
+        return string != null && !string.isEmpty();
+    }
+
+    public List<Word> getSellectedWordsForImage() {
+        return sellectedWordsForImage;
+    }
+
+    public List<Word> getSellectedWordsForVideo() {
+        return sellectedWordsForVideo;
     }
 
     @Override
@@ -56,22 +74,29 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
 
         @BindView(R.id.text_view_item_word)
         TextView mTextViewWord;
-
-        @BindView(R.id.checkBox)
-        CheckBox checkBox;
+        @BindView(R.id.checkBoxImage)
+        CheckBox imageCheckBox;
+        @BindView(R.id.checkBoxVideo)
+        CheckBox videoCheckBox;
 
         public WordViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            checkBox.setOnClickListener( v -> {
-                if (checkBox.isChecked()){
-                    sellectedWords.add(mWordList.get(getAdapterPosition()));
-                    Log.d("LISTA DE SELECIONADOS", "adicionando");
+            imageCheckBox.setOnClickListener(v -> {
+                if (imageCheckBox.isChecked()){
+                    sellectedWordsForImage.add(mWordList.get(getAdapterPosition()));
                 }
                 else{
-                    sellectedWords.remove(mWordList.get(getAdapterPosition()));
-                    Log.d("LISTA DE SELECIONADOS", "removendo");
+                    sellectedWordsForImage.remove(mWordList.get(getAdapterPosition()));
+                }
+            });
+            videoCheckBox.setOnClickListener(v -> {
+                if (videoCheckBox.isChecked()){
+                    sellectedWordsForVideo.add(mWordList.get(getAdapterPosition()));
+                }
+                else{
+                    sellectedWordsForVideo.remove(mWordList.get(getAdapterPosition()));
                 }
             });
         }

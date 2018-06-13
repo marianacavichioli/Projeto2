@@ -3,6 +3,7 @@ package com.mobile2.projeto2.entity.data;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Created by cesar on 4/21/2018.
@@ -19,9 +20,10 @@ public class WordData {
     //    this.word = word;
     //}
 
-    public WordData(String word, String imageFilePath) {
+    public WordData(String word, @Nullable String imageFilePath, @Nullable String videoFilePath) {
         this.word = word;
         this.imageFilePath = imageFilePath;
+        this.videoFilePath = videoFilePath;
     }
 
     public String getWord() {

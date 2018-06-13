@@ -59,4 +59,5 @@ dependencies {
         exclude module: "support-v13"
     }
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.2.0"
+    compile "com.writingminds:FFmpegAndroid:0.3.2"
 }

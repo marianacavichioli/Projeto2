@@ -5,7 +5,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
-import android.os.SystemClock;
 
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
@@ -27,9 +26,31 @@ public abstract class DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insert(SyllableData... syllableData);
 
-    //TODO: Switch to upsert when we add video to syllables...
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     public abstract void insert(WordData... wordData);
+
+    public void upsert(WordData wordData){
+        try {
+            insert(wordData);
+        } catch (Exception e) {
+            if (wordData.getImageFilePath() != null && !wordData.getImageFilePath().isEmpty()) {
+                updateWordImage(wordData.getWord(), wordData.getImageFilePath());
+            }
+            if (wordData.getVideoFilePath() != null && !wordData.getVideoFilePath().isEmpty()) {
+                updateWordVideo(wordData.getWord(), wordData.getVideoFilePath());
+            }
+        }
+    }
+
+    @Query("UPDATE WordData " +
+            "SET videoFilePath = :path " +
+            "WHERE word = :word")
+    protected abstract void updateWordVideo(String word, String path);
+
+    @Query("UPDATE WordData " +
+            "SET imageFilePath = :path " +
+            "WHERE word = :word")
+    protected abstract void updateWordImage(String word, String path);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insert(SyllablesFromWord... syllablesFromWord);
@@ -54,9 +75,8 @@ public abstract class DatabaseDao {
     @Query("SELECT SyllableData.syllable FROM SyllableData ")
     public abstract Single<List<String>> getAllSyllablesString();
 
-    @Transaction
     public void insertWord(Word word) {
-        insert(word.getData());
+        upsert(word.getData());
         for (int i = 0; i < word.syllableCount(); i++) {
             Syllable syllable = word.getSyllableAt(i);
             insert(syllable.getData());

@@ -53,7 +53,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
 
     private boolean fotoAnexada = false;
     private static final int CODIGO_CAMERA = 123;
-    public String caminhoFoto;
+    public String caminhoFoto =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".jpg";
     private int PICK_IMAGE_REQUEST = 1;
 
 
@@ -120,10 +120,9 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         CriarTemplateActivityPermissionsDispatcher.tiraFotoWithPermissionCheck(this);
     }
 
-    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE})
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void tiraFoto() {
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
         File arquivoFoto = new File(caminhoFoto);
         Uri fileUri = FileProvider.getUriForFile(this, "com.mobile2.Projeto2.fileprovider", arquivoFoto);
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -159,7 +158,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
                     presenter.getTemplate(caminhoFoto));
 
             String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(caminhoFoto, silabas))
+            GeneralRepository.saveWord(new Word(caminhoFoto, null, silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
                         showToast(palavra);

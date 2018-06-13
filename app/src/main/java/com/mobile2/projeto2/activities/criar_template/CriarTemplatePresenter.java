@@ -47,8 +47,6 @@ public class CriarTemplatePresenter {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 
-            caminhoFoto = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".png";
-
             FileOutputStream fos = new FileOutputStream(caminhoFoto);
             fos.write(stream.toByteArray());
             fos.close();

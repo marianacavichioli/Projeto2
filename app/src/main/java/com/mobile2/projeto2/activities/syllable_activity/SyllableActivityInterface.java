@@ -18,7 +18,7 @@ public interface SyllableActivityInterface {
 
         void setWord(Word word);
 
-        void setImage(Uri uri);
+        void setAsset(Uri uri);
 
         void onError(String message);
     }

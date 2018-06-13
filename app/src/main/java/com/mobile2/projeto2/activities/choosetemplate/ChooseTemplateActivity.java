@@ -1,4 +1,4 @@
-package com.mobile2.projeto2.activities.main;
+package com.mobile2.projeto2.activities.choosetemplate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,31 +8,26 @@ import android.widget.Button;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
-import com.mobile2.projeto2.activities.management.ManagementActivity;
-import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
+import com.mobile2.projeto2.activities.criar_template_video.CriarTemplateActivityVideo;
 import com.mobile2.projeto2.activities.wordselector_activity.WordSelectorActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by cesar on 5/22/2018.
- */
-
-public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.main_button_management)
-    Button mButtonGoToManagement;
-    @BindView(R.id.main_button_activities)
-    Button mButtonGoToActivities;
+public class ChooseTemplateActivity extends AppCompatActivity {
+    @BindView(R.id.management_create_syllable)
+    Button mButtonCreateSyllable;
+    @BindView(R.id.management_create_video)
+    Button mButtonCreateVideo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_management_create);
         ButterKnife.bind(this);
 
-        mButtonGoToManagement.setOnClickListener(v -> goToActivity(ManagementActivity.class));
-        mButtonGoToActivities.setOnClickListener(v -> goToActivity(WordSelectorActivity.class));
+        mButtonCreateSyllable.setOnClickListener(v -> goToActivity(CriarTemplateActivity.class));
+        mButtonCreateVideo.setOnClickListener(v -> goToActivity(CriarTemplateActivityVideo.class));
     }
 
     private void goToActivity(Class activity) {

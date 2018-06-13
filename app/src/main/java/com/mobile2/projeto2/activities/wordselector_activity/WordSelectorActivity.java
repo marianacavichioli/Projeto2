@@ -6,12 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
-import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
+import com.mobile2.projeto2.activities.video_activity.VideoActivity;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
 
@@ -32,6 +31,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     LinearLayoutManager mLinearLayoutManager;
     WordAdapter mAdapter;
+    List<Intent> activitiesList = new ArrayList<>();
 
 
     @Override
@@ -54,15 +54,31 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void goToSyllableActivity(List<Word> sellectedWList){
-        Collections.shuffle(sellectedWList); // embaralhando as palavras
-        Intent[] intents = new Intent[sellectedWList.size()];
-        for(int i=0;i<sellectedWList.size();i++){
+    private void goToActivities() {
+        List<Word> sellectedWordsForImage = mAdapter.getSellectedWordsForImage();
+        List<Word> sellectedWordsForVideo = mAdapter.getSellectedWordsForVideo();
+
+        generateIntentsForImage(sellectedWordsForImage);
+        generateIntentsForVideo(sellectedWordsForVideo);
+        Collections.shuffle(activitiesList);
+        startActivities(activitiesList.toArray(new Intent[0]));
+        activitiesList.clear();
+    }
+
+    private void generateIntentsForImage(List<Word> sellectedWordsForImage) {
+        for (int i = 0; i < sellectedWordsForImage.size(); i++) {
             Intent intent = new Intent(this, SyllableActivityActivity.class);
-            intent.putExtra(Constans.EXTRA_WORD_STRING, sellectedWList.get(i).toString());
-            intents[i] = intent;
+            intent.putExtra(Constans.EXTRA_WORD_STRING, sellectedWordsForImage.get(i).toString());
+            activitiesList.add(intent);
         }
-        startActivities(intents);
+    }
+
+    private void generateIntentsForVideo(List<Word> sellectedWordsForVideo) {
+        for (int i = 0; i < sellectedWordsForVideo.size(); i++) {
+            Intent intent = new Intent(this, VideoActivity.class);
+            intent.putExtra(Constans.EXTRA_WORD_STRING, sellectedWordsForVideo.get(i).toString());
+            activitiesList.add(intent);
+        }
     }
 
     @Override
@@ -72,11 +88,10 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     @OnClick(R.id.btn_iniciar)
     public void iniciar() {
-        if(mAdapter.getSellectedWords().isEmpty()){
+        if (mAdapter.getSellectedWordsForImage().isEmpty() && mAdapter.getSellectedWordsForVideo().isEmpty()) {
             Toast.makeText(WordSelectorActivity.this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            goToSyllableActivity(mAdapter.getSellectedWords());
+        } else {
+            goToActivities();
         }
     }
 
