@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -116,6 +117,8 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
 
     private Button generateButton(String s) {
         Button button = new Button(this);
+        button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rounded_corner));
+        button.setTextColor(Color.WHITE);
         button.setText(s.toUpperCase());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(32, 32, 32, 32);

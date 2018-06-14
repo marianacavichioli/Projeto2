@@ -76,21 +76,18 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == CODIGO_CAMERA && resultCode == Activity.RESULT_OK) {
-
             fotoAnexada = true;
-            CriarTemplateActivityPermissionsDispatcher.exibeFotoWithPermissionCheck(this);
+            exibeFoto();
 
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
             fotoAnexada = true;
-
             Uri uri = data.getData();
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
                 CriarTemplateActivityPermissionsDispatcher.escreveImagensWithPermissionCheck(this, bitmap);
-                CriarTemplateActivityPermissionsDispatcher.exibeFotoWithPermissionCheck(this);
+                exibeFoto();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -105,11 +102,9 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         presenter.escreveAsImagens(bmp,caminhoFoto);
     }
 
-
-    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
     public void exibeFoto() {
         Picasso.with(this)
-                .load("file://" + caminhoFoto)
+                .load(Uri.parse("file://" + caminhoFoto))
                 .fit()
                 .centerCrop()
                 .into(campoFoto);
@@ -126,7 +121,9 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         File arquivoFoto = new File(caminhoFoto);
         Uri fileUri = FileProvider.getUriForFile(this, "com.mobile2.Projeto2.fileprovider", arquivoFoto);
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intentCamera, CODIGO_CAMERA);
+        if (intentCamera.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intentCamera, CODIGO_CAMERA);
+        }
     }
 
     @OnClick(R.id.formulario_botao_galeria)

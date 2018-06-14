@@ -5,21 +5,16 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.mobile2.projeto2.R;
-import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityInterface;
-import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityPresenter;
-import com.mobile2.projeto2.entity.Syllable;
-import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
 
 import java.util.concurrent.TimeUnit;
@@ -89,6 +84,8 @@ public class VideoActivity extends AppCompatActivity implements VideoActivityInt
 
     private Button generateButton(String s) {
         Button button = new Button(this);
+        button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rounded_corner));
+        button.setTextColor(Color.WHITE);
         button.setText(s.toUpperCase());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(32, 32, 32, 32);

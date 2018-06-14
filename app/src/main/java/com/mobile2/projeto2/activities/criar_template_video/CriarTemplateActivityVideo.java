@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -55,6 +56,8 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
     VideoView campoVideo;
     @BindView(R.id.progressBar)
     ProgressBar videoCompressProgressBar;
+    @BindView(R.id.placeholder)
+    ImageView mPlaceholder;
     private FFmpeg ffmpeg;
 
 
@@ -65,7 +68,6 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
 
 
     private boolean videoAnexado = false;
-    private static final int CODIGO_CAMERA = 123;
     public String caminhoVideo =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + ".mp4";
     public String caminhoVideoComprimido =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID() + "-compressed.mp4";
     private int PICK_IMAGE_REQUEST = 1;
@@ -89,7 +91,7 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String command[] = {"-y", "-i", caminhoVideo , "-an",  "-s", "640x480", "-r", "25", "-vcodec", "mpeg4", "-b:v", "150k", caminhoVideoComprimido};
+            String command[] = {"-y", "-i", caminhoVideo ,  "-s", "640x480", "-r", "25", "-vcodec", "mpeg4", "-b:v", "128k", caminhoVideoComprimido};
             execFFmpegBinary(command);
         }
     }
@@ -212,6 +214,8 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
                 @Override
                 public void onSuccess(String s) {
                     videoCompressProgressBar.setVisibility(View.GONE);
+                    mPlaceholder.setVisibility(View.GONE);
+                    campoVideo.setVisibility(View.VISIBLE);
                     videoAnexado = true;
                     File videoFile = new File(caminhoVideo);
                     videoFile.delete();
@@ -241,4 +245,12 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        File videoFile = new File(caminhoVideoComprimido);
+        if (videoFile.exists()) {
+            videoFile.delete();
+        }
+        super.onBackPressed();
+    }
 }

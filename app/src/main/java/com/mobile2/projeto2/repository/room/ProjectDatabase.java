@@ -15,7 +15,7 @@ import com.mobile2.projeto2.entity.data.roomjoins.SyllablesFromWord;
                 SyllableData.class,
                 WordData.class,
                 SyllablesFromWord.class
-        }, version = 3)
+        }, version = 4)
 public abstract class ProjectDatabase extends RoomDatabase {
     public abstract DatabaseDao getDao();
 }

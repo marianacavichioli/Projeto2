@@ -21,32 +21,44 @@ import io.reactivex.schedulers.Schedulers;
 public class GeneralRepository {
     private final static DatabaseDao databaseDao = Project2Application.getDatabase().getDao();
 
-    public static Single<Word> getWord(String word){
+    public static Single<Word> getWord(String word) {
         return databaseDao.getWord(word)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Completable saveWord(Word word){
+    public static Completable saveWord(Word word) {
         return Completable.fromAction(() -> databaseDao.insertWord(word))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Single<List<Word>> getAllWords(){
+    public static Single<List<Word>> getAllWords() {
         return databaseDao.getAllWords()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Single<List<Word>> getAllWordsWithImages(){
+    public static Single<List<Word>> getAllWordsWithImages() {
         return databaseDao.getAllWordsWithImages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Single<List<Syllable>> getAllSyllables(){
+    public static Single<List<Syllable>> getAllSyllables() {
         return databaseDao.getAllSyllables()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Completable deleteWords(List<Word> words) {
+        return Completable.fromAction(() -> {
+            WordData[] wordData = new WordData[words.size()];
+            for (int i = 0; i < words.size(); i++) {
+                wordData[i] = words.get(i).getData();
+            }
+            databaseDao.delete(wordData);
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

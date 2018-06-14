@@ -1,6 +1,7 @@
 package com.mobile2.projeto2.repository.room;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -54,6 +55,9 @@ public abstract class DatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insert(SyllablesFromWord... syllablesFromWord);
+
+    @Delete
+    public abstract void delete(WordData... wordData);
 
     @Query("SELECT SyllableData.syllable FROM SyllableData " +
             "INNER JOIN SyllablesFromWord ON SyllableData.syllable = SyllablesFromWord.syllable " +

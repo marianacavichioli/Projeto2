@@ -10,6 +10,7 @@ import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.choosetemplate.ChooseTemplateActivity;
 import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
 import com.mobile2.projeto2.activities.wordselector_activity.WordSelectorActivity;
+import com.mobile2.projeto2.activities.wordselector_activity.deletion.WordDeletionActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ public class ManagementActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         mButtonGoToCreate.setOnClickListener(v -> goToActivity(ChooseTemplateActivity.class));
-//        mButtonGoToDelete.setOnClickListener(v -> goToActivity(WordSelectorActivity.class));
+        mButtonGoToDelete.setOnClickListener(v -> goToActivity(WordDeletionActivity.class));
     }
 
     private void goToActivity(Class activity) {

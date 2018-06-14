@@ -11,14 +11,14 @@
         app:layout_constraintDimensionRatio="H,4:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#00A8EC">
 
         <ImageView
             android:id="@+id/formulario_foto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/person"
-            android:background="#00A8EC"/>
+            android:src="@drawable/person" />
     </RelativeLayout>
 
     <LinearLayout

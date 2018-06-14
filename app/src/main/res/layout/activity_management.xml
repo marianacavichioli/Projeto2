@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@color/primary_light"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.mobile2.projeto2.activities.main.MainActivity">
 
     <Button
         android:id="@+id/management_button_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
         android:layout_gravity="center"
-        android:text="CRIAR" />
+        android:background="@drawable/button_rounded_corner"
+        android:text="CRIAR"
+        android:textColor="#FFFF"
+        app:layout_constraintBottom_toTopOf="@id/management_button_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/management_button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
         android:layout_gravity="center"
-        android:text="EXCLUIR" />
+        android:background="@drawable/button_rounded_corner"
+        android:text="EXCLUIR"
+        android:textColor="#FFFF"
+        app:layout_constraintBottom_toBottomOf="@id/management_button_create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

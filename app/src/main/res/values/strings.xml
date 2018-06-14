@@ -4,4 +4,6 @@
     <string name="hint_Tartaruga">tar/ta/ru/ga</string>
     <string name="text_DigitePalavraVideo">Digite uma palavra</string>
     <string name="hint_TartarugaVideo">tartaruga</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="deletar">DELETAR</string>
 </resources>
