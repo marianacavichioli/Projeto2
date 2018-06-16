@@ -33,6 +33,7 @@
         <activity android:name=".activities.management.ManagementActivity" />
         <activity android:name=".activities.choosetemplate.ChooseTemplateActivity" />
         <activity android:name=".activities.criar_template_video.CriarTemplateActivityVideo" />
+        <activity android:name=".activities.feedback.FeedbackActivity" />
         <activity android:name=".activities.video_activity.VideoActivity" />
         <activity android:name=".activities.wordselector_activity.deletion.WordDeletionActivity" />
 
