@@ -1,5 +1,7 @@
 package com.mobile2.projeto2.repository;
 
+import android.support.annotation.NonNull;
+
 import com.mobile2.projeto2.Project2Application;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
@@ -53,13 +55,43 @@ public class GeneralRepository {
 
     public static Completable deleteWords(List<Word> words) {
         return Completable.fromAction(() -> {
-            WordData[] wordData = new WordData[words.size()];
-            for (int i = 0; i < words.size(); i++) {
-                wordData[i] = words.get(i).getData();
-            }
+            final WordData[] wordData = getWordDataArray(words);
             databaseDao.delete(wordData);
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Completable deleteImageFromWords(List<Word> words) {
+        return Completable.fromAction(() -> {
+            final WordData[] wordData = getWordDataArray(words);
+            for (WordData data : wordData) {
+                data.setImageFilePath(null);
+            }
+            databaseDao.update(wordData);
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Completable deleteVideoFromWords(List<Word> words) {
+        return Completable.fromAction(() -> {
+            final WordData[] wordData = getWordDataArray(words);
+            for (WordData data : wordData) {
+                data.setVideoFilePath(null);
+            }
+            databaseDao.update(wordData);
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @NonNull
+    private static WordData[] getWordDataArray(List<Word> words) {
+        WordData[] wordData = new WordData[words.size()];
+        for (int i = 0; i < words.size(); i++) {
+            wordData[i] = words.get(i).getData();
+        }
+        return wordData;
     }
 }

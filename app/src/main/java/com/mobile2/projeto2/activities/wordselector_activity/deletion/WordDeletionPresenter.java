@@ -32,6 +32,38 @@ public class WordDeletionPresenter implements WordDeletionInterface.Presenter {
 
     @SuppressLint("CheckResult")
     @Override
+    public void deleteImageWords(List<Word> words) {
+        GeneralRepository.deleteImageFromWords(words)
+                .subscribe(() -> {
+                    for (Word word : wordList) {
+                        if (isValid(word.getImageFilePath())) {
+                            File imageFile = new File(word.getImageFilePath());
+                            if (imageFile.exists()) {
+                                imageFile.delete();
+                            }
+                        }
+                    }
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void deleteVideoWords(List<Word> words) {
+        GeneralRepository.deleteVideoFromWords(words)
+                .subscribe(() -> {
+                    for (Word word : wordList) {
+                        if (isValid(word.getVideoFilePath())) {
+                            File videoFile = new File(word.getVideoFilePath());
+                            if (videoFile.exists()) {
+                                videoFile.delete();
+                            }
+                        }
+                    }
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
     public void deleteWords(List<Word> words) {
         GeneralRepository.deleteWords(words)
                 .subscribe(() -> {

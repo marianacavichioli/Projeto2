@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
+import android.arch.persistence.room.Update;
 
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
@@ -58,6 +59,9 @@ public abstract class DatabaseDao {
 
     @Delete
     public abstract void delete(WordData... wordData);
+
+    @Update
+    public abstract void update(WordData... wordData);
 
     @Query("SELECT SyllableData.syllable FROM SyllableData " +
             "INNER JOIN SyllablesFromWord ON SyllableData.syllable = SyllablesFromWord.syllable " +

@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.wordselector_activity.WordAdapter;
 import com.mobile2.projeto2.entity.Word;
 
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WordDeletionAdapter extends RecyclerView.Adapter<WordDeletionAdapter.WordViewHolder> {
+public class WordDeletionAdapter extends WordAdapter {
 
     private List<Word> mWordList;
     private List<Word> sellectedWordsForDeletion = new ArrayList<>();
 
     public WordDeletionAdapter(List<Word> wordList) {
+        super(wordList);
         this.mWordList = wordList;
         this.setHasStableIds(true);
     }
@@ -37,12 +39,13 @@ public class WordDeletionAdapter extends RecyclerView.Adapter<WordDeletionAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WordDeletionAdapter.WordViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WordAdapter.WordViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         Word word = mWordList.get(position);
 
-        holder.mTextViewWord.setText(word.toString());
-        holder.deletionCheckbox.setVisibility(View.VISIBLE);
-        holder.deletionCheckbox.setClickable(true);
+        ((WordViewHolder) holder).mTextViewWord.setText(word.toString());
+        ((WordViewHolder) holder).deleteCheckBox.setVisibility(View.VISIBLE);
+        ((WordViewHolder) holder).deleteCheckBox.setClickable(true);
     }
 
     private boolean isValid(String string) {
@@ -58,19 +61,13 @@ public class WordDeletionAdapter extends RecyclerView.Adapter<WordDeletionAdapte
         return mWordList != null ? mWordList.size() : 0;
     }
 
-    public class WordViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.text_view_item_word)
-        TextView mTextViewWord;
-        @BindView(R.id.checkBoxImage)
-        CheckBox deletionCheckbox;
+    public class WordViewHolder extends WordAdapter.WordViewHolder {
 
         public WordViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
 
-            deletionCheckbox.setOnClickListener(v -> {
-                if (deletionCheckbox.isChecked()) {
+            deleteCheckBox.setOnClickListener(v -> {
+                if (deleteCheckBox.isChecked()) {
                     sellectedWordsForDeletion.add(mWordList.get(getAdapterPosition()));
                 } else {
                     sellectedWordsForDeletion.remove(mWordList.get(getAdapterPosition()));

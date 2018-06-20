@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.wordselector_activity.WordAdapter;
 import com.mobile2.projeto2.entity.Word;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,10 +60,22 @@ public class WordDeletionActivity extends AppCompatActivity implements WordDelet
 
     @OnClick(R.id.btn_deletar)
     public void deletar() {
-        if (mAdapter.getSellectedWordsForDeletion().isEmpty()) {
+        if (mAdapter.getSellectedWordsForImage().isEmpty() && mAdapter.getSellectedWordsForVideo().isEmpty()) {
             Toast.makeText(this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
         } else {
-            mPresenter.deleteWords(mAdapter.getSellectedWordsForDeletion());
+            final List<Word> completeDeletion = new ArrayList<>();
+            final List<Word> imageOnlyDeletion = new ArrayList<>();
+            final List<Word> videoOnlyDeletion = new ArrayList<>();
+
+            imageOnlyDeletion.addAll(mAdapter.getSellectedWordsForImage());
+            videoOnlyDeletion.addAll(mAdapter.getSellectedWordsForVideo());
+            completeDeletion.addAll(mAdapter.getSellectedWordsForDeletion());
+            imageOnlyDeletion.removeAll(completeDeletion);
+            videoOnlyDeletion.removeAll(completeDeletion);
+
+            mPresenter.deleteImageWords(imageOnlyDeletion);
+            mPresenter.deleteVideoWords(videoOnlyDeletion);
+            mPresenter.deleteWords(completeDeletion);
         }
     }
 

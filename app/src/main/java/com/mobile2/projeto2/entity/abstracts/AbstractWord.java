@@ -25,6 +25,10 @@ public abstract class AbstractWord {
         this.mWord = new WordData(generateWord(mSyllables),imageFilePath, videoFilePath);
     }
 
+    public AbstractWord(@Nullable String imageFilePath, @Nullable String videoFilePath, String word) {
+        this.mWord = new WordData(word,imageFilePath, videoFilePath);
+    }
+
     public AbstractWord(WordData wordData, List<SyllableData> syllables) {
         for (SyllableData syllable : syllables) {
             mSyllables.add(new Syllable(syllable));

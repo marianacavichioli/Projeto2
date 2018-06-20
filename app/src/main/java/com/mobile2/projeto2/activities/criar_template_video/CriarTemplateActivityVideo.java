@@ -131,19 +131,16 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
     @OnClick(R.id.formulario_submit)
     public void salvar() {
 
-        palavra = editText_PalavraVideo.getText().toString();
+        palavra = editText_PalavraVideo.getText().toString().toLowerCase();
 
         List<String> mensagens = validar();
 
         if (mensagens == null) {
             Intent resultado = new Intent().putExtra("template", caminhoVideoComprimido);
 
-
-            String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(null, caminhoVideoComprimido, silabas))
+            GeneralRepository.saveWord(new Word(null, caminhoVideoComprimido, palavra))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
-                        showToast(palavra);
                         finish();
                     }, throwable -> {
                         throwable.printStackTrace();

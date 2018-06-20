@@ -1,5 +1,7 @@
 package com.mobile2.projeto2.activities.wordselector_activity.deletion;
 
+import android.annotation.SuppressLint;
+
 import com.mobile2.projeto2.entity.Word;
 
 import java.util.List;
@@ -10,6 +12,11 @@ public interface WordDeletionInterface {
     interface Presenter {
         void fetchWordList();
 
+        void deleteImageWords(List<Word> words);
+
+        void deleteVideoWords(List<Word> words);
+
+        @SuppressLint("CheckResult")
         void deleteWords(List<Word> words);
     }
 

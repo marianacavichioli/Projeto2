@@ -73,11 +73,13 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
     public class WordViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_view_item_word)
-        TextView mTextViewWord;
+        public TextView mTextViewWord;
         @BindView(R.id.checkBoxImage)
-        CheckBox imageCheckBox;
+        public CheckBox imageCheckBox;
         @BindView(R.id.checkBoxVideo)
-        CheckBox videoCheckBox;
+        public CheckBox videoCheckBox;
+        @BindView(R.id.checkboxDeleteWord)
+        public CheckBox deleteCheckBox;
 
         public WordViewHolder(View itemView) {
             super(itemView);
