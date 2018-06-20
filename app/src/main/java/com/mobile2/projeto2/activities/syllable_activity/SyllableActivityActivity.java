@@ -58,7 +58,7 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     int rightCounter;
     private int totalSyllabes;
-    int missCounter;
+    int missCounter = 0;
     private String wordString;
 
     @Override

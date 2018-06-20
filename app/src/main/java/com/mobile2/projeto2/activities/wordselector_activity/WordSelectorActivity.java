@@ -67,6 +67,8 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
         Intent intentFeedback = new Intent(this,FeedbackActivity.class);
         finalActivitiesList.add(intentFeedback);
 
+        //TODO: ADICIONAR AQUI A INTENT PARA A TELA DE BLOQUEIO
+
         finalActivitiesList.addAll(activitiesList);
 
         startActivities(finalActivitiesList.toArray(new Intent[0]));

@@ -14,4 +14,16 @@ public class Feedback{
         this.type = type;
         this.missCounter = missCounter;
     }
+
+    public int getMissCounter(){
+        return missCounter;
+    }
+
+    public String getWord(){
+        return word;
+    }
+
+    public Constans.ActType getType(){
+        return type;
+    }
 }
