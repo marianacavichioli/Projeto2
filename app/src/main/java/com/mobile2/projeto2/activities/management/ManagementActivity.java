@@ -3,6 +3,7 @@ package com.mobile2.projeto2.activities.management;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
@@ -26,6 +27,9 @@ public class ManagementActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management);
         ButterKnife.bind(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
 
         mButtonGoToCreate.setOnClickListener(v -> goToActivity(ChooseTemplateActivity.class));
         mButtonGoToDelete.setOnClickListener(v -> goToActivity(WordDeletionActivity.class));

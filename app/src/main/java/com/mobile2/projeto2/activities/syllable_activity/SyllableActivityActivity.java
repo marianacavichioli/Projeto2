@@ -21,7 +21,9 @@ import android.widget.Toast;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
+import com.mobile2.projeto2.util.ActivitiesFeedback;
 import com.mobile2.projeto2.util.Constans;
+import com.mobile2.projeto2.util.Feedback;
 import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
@@ -56,6 +58,8 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     int rightCounter;
     private int totalSyllabes;
+    int missCounter;
+    private String wordString;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
 
         Intent extras = getIntent();
         if (extras != null) {
-            String wordString = extras.getStringExtra(Constans.EXTRA_WORD_STRING);
+            wordString = extras.getStringExtra(Constans.EXTRA_WORD_STRING);
 
             if (wordString != null && !wordString.isEmpty()) {
                 mPresenter.fetchWord(wordString);
@@ -91,15 +95,20 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
             blowKonfetti(view);
             showAnswerClicked(syllable);
             if (rightCounter >= totalSyllabes) {
-                blowKonfetti(mSyllableAnswerContainer);
-                mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::finish));
+                terminateActivity();
             }
             view.setVisibility(View.INVISIBLE);
             view.setClickable(false);
         });
         mSyllableButtonsContainer.addView(button);
+    }
+
+    private void terminateActivity() {
+        blowKonfetti(mSyllableAnswerContainer);
+        ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.IMAGE, missCounter));
+        mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::finish));
     }
 
     private void showAnswerClicked(Syllable syllable) {
@@ -149,6 +158,7 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
         button.setOnClickListener(view -> {
             mExplosionField.explode(view);
             button.setClickable(false);
+            missCounter++;
         });
         mSyllableButtonsContainer.addView(button);
     }
