@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.choosetemplate.ChooseTemplateActivity;
 import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
+import com.mobile2.projeto2.activities.screenlock.LockActivity;
 import com.mobile2.projeto2.activities.wordselector_activity.WordSelectorActivity;
 import com.mobile2.projeto2.activities.wordselector_activity.deletion.WordDeletionActivity;
 
@@ -29,6 +30,13 @@ public class ManagementActivity extends AppCompatActivity{
 
         mButtonGoToCreate.setOnClickListener(v -> goToActivity(ChooseTemplateActivity.class));
         mButtonGoToDelete.setOnClickListener(v -> goToActivity(WordDeletionActivity.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent lock = new Intent(this, LockActivity.class);
+        startActivity(lock);
     }
 
     private void goToActivity(Class activity) {
