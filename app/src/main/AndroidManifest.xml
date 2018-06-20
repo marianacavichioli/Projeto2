@@ -20,28 +20,44 @@
             android:configChanges="orientation|keyboardHidden">
         </activity>
         <activity android:name=".activities.criar_template.CriarTemplateActivity">
-
+            android:screenOrientation="portrait"
         </activity>
         <activity android:name=".activities.main.MainActivity">
+            android:screenOrientation="portrait"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.wordselector_activity.WordSelectorActivity" />
-        <activity android:name=".activities.management.ManagementActivity" />
-        <activity android:name=".activities.choosetemplate.ChooseTemplateActivity" />
-        <activity android:name=".activities.criar_template_video.CriarTemplateActivityVideo" />
-        <activity android:name=".activities.video_activity.VideoActivity" />
-        <activity android:name=".activities.wordselector_activity.deletion.WordDeletionActivity" />
+        <activity
+            android:name=".activities.wordselector_activity.WordSelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.management.ManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.choosetemplate.ChooseTemplateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.criar_template_video.CriarTemplateActivityVideo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.video_activity.VideoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.wordselector_activity.deletion.WordDeletionActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.ajuda.AjudaActivity"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.mobile2.Projeto2.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />

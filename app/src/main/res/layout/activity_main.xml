@@ -12,48 +12,46 @@
         android:id="@+id/main_button_management"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="GERENCIAR"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_rounded_corner"
+        android:text="GERENCIAR"
         android:textColor="#FFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/main_button_help"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_button_activities"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/main_button_activities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
-        android:text="ATIVIDADES"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_rounded_corner"
+        android:text="ATIVIDADES"
         android:textColor="#FFFF"
         app:layout_constraintBottom_toTopOf="@+id/main_button_management"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView2"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="38dp"
-        android:layout_marginRight="38dp"
-        android:layout_marginTop="35dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_help" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="269dp"
         android:layout_height="230dp"
+        android:layout_marginTop="70dp"
         android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/main_button_activities"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/main_button_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/button_rounded_corner"
+        android:text="AJUDA"
+        android:textColor="#FFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
