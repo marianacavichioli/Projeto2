@@ -1,28 +1,25 @@
 package com.mobile2.projeto2.activities.screenlock;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.util.Constans;
 import com.mobile2.projeto2.util.LockedAppCompatActivity;
 import com.mobile2.projeto2.util.Password;
 import com.mobile2.projeto2.util.Toaster;
-import com.mobile2.projeto2.util.UIHidedAppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by cesar.andrade on 20/06/18.
- */
-
-public class LockActivity extends UIHidedAppCompatActivity implements PinLockListener {
-
+public class NewPinActivity extends LockedAppCompatActivity implements PinLockListener {
     private static final String TAG = "LOCKSCREEN";
 
     @BindView(R.id.pin_lock_view)
@@ -30,7 +27,7 @@ public class LockActivity extends UIHidedAppCompatActivity implements PinLockLis
     @BindView(R.id.indicator_dots)
     IndicatorDots mIndicatorDots;
 
-    String mPIN = Password.getPIN();
+    String newPin = "";
     Toaster mToaster = new Toaster(this);
 
     @Override
@@ -44,14 +41,31 @@ public class LockActivity extends UIHidedAppCompatActivity implements PinLockLis
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (newPin.isEmpty()) {
+            mToaster.toast(R.string.enter_new_password);
+        }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    @Override
     public void onComplete(String pin) {
-        Log.d(TAG, "Pin complete: " + pin);
-        if (pin.equals(mPIN)) {
-            setResult(LockedAppCompatActivity.UNLOCKED);
+        if (newPin.isEmpty()) {
+            newPin = pin;
+            mToaster.toast(R.string.confirm_password);
+            mPinLockView.resetPinLockView();
+        } else if (newPin.equals(pin)){
+            SharedPreferences sharedPref = getSharedPreferences(Constans.SHAREDPREF_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(Constans.PASSWORD_KEY, pin);
+            editor.commit();
+            Password.setPIN(pin);
             finish();
         } else {
+            newPin = "";
             mPinLockView.resetPinLockView();
-            mToaster.toast(R.string.incorrect_password);
+            mToaster.toast(R.string.password_confirmation_failed);
         }
     }
 
@@ -73,7 +87,7 @@ public class LockActivity extends UIHidedAppCompatActivity implements PinLockLis
 
     @Override
     public void finish() {
-        super.finish();
         mToaster.cancelToast();
+        super.finish();
     }
 }

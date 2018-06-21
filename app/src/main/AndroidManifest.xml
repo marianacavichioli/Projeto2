@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.syllable_activity.SyllableActivityActivity"
             android:screenOrientation="portrait"
+            android:taskAffinity="activity.exec"
             android:configChanges="orientation|keyboardHidden">
         </activity>
         <activity android:name=".activities.criar_template.CriarTemplateActivity">
@@ -44,6 +45,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.video_activity.VideoActivity"
+            android:taskAffinity="activity.exec"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.wordselector_activity.deletion.WordDeletionActivity"
@@ -52,7 +54,10 @@
         <activity
             android:name=".activities.ajuda.AjudaActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.screenlock.LockActivity" />
+        <activity android:name=".activities.screenlock.LockActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.screenlock.NewPinActivity"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

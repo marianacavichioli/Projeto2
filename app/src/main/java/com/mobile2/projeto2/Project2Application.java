@@ -1,9 +1,12 @@
 package com.mobile2.projeto2;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,10 +16,14 @@ import com.mobile2.projeto2.entity.data.SyllableData;
 import com.mobile2.projeto2.entity.data.WordData;
 import com.mobile2.projeto2.repository.GeneralRepository;
 import com.mobile2.projeto2.repository.room.ProjectDatabase;
+import com.mobile2.projeto2.util.Constans;
+import com.mobile2.projeto2.util.Password;
 import com.mobile2.projeto2.util.SyllableList;
 
 import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.mobile2.projeto2.util.Constans.*;
 
 /**
  * Created by cesar on 5/9/2018.
@@ -32,6 +39,7 @@ public class Project2Application extends Application {
         database = Room.databaseBuilder(this, ProjectDatabase.class, "database")
                 .fallbackToDestructiveMigration()
                 .addCallback(new RoomDatabase.Callback() {
+                    @SuppressLint("CheckResult")
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         Completable.fromAction(() -> {
@@ -46,9 +54,16 @@ public class Project2Application extends Application {
                                         Throwable::printStackTrace);
                     }
                 }).build();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF_NAME, Context.MODE_PRIVATE);
+        Password.setPIN(sharedPreferences.getString(PASSWORD_KEY, ""));
     }
 
     public synchronized static ProjectDatabase getDatabase() {
         return database;
+    }
+
+    public static Context getContext(){
+        return getContext();
     }
 }

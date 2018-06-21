@@ -16,6 +16,7 @@ import android.widget.VideoView;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.util.Constans;
+import com.mobile2.projeto2.util.LeaveLockedAppCompatActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +30,7 @@ import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 import tyrantgit.explosionfield.ExplosionField;
 
-public class VideoActivity extends AppCompatActivity implements VideoActivityInterface.View {
+public class VideoActivity extends LeaveLockedAppCompatActivity implements VideoActivityInterface.View {
     ExplosionField mExplosionField;
     @BindView(R.id.viewKonfetti)
     KonfettiView mKonfettiView;

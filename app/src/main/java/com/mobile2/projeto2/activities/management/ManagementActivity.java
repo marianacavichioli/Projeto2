@@ -3,20 +3,17 @@ package com.mobile2.projeto2.activities.management;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.choosetemplate.ChooseTemplateActivity;
-import com.mobile2.projeto2.activities.criar_template.CriarTemplateActivity;
-import com.mobile2.projeto2.activities.screenlock.LockActivity;
-import com.mobile2.projeto2.activities.wordselector_activity.WordSelectorActivity;
+import com.mobile2.projeto2.util.LockedAppCompatActivity;
 import com.mobile2.projeto2.activities.wordselector_activity.deletion.WordDeletionActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ManagementActivity extends AppCompatActivity{
+public class ManagementActivity extends LockedAppCompatActivity {
     @BindView(R.id.management_button_create)
     Button mButtonGoToCreate;
     @BindView(R.id.management_button_delete)
@@ -30,13 +27,6 @@ public class ManagementActivity extends AppCompatActivity{
 
         mButtonGoToCreate.setOnClickListener(v -> goToActivity(ChooseTemplateActivity.class));
         mButtonGoToDelete.setOnClickListener(v -> goToActivity(WordDeletionActivity.class));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent lock = new Intent(this, LockActivity.class);
-        startActivity(lock);
     }
 
     private void goToActivity(Class activity) {

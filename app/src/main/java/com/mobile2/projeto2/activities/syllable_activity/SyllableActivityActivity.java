@@ -22,6 +22,7 @@ import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
+import com.mobile2.projeto2.util.LeaveLockedAppCompatActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,7 @@ import tyrantgit.explosionfield.ExplosionField;
  * Created by cesar on 5/5/2018.
  */
 
-public class SyllableActivityActivity extends AppCompatActivity implements SyllableActivityInterface.View {
+public class SyllableActivityActivity extends LeaveLockedAppCompatActivity implements SyllableActivityInterface.View {
 
     ExplosionField mExplosionField;
     @BindView(R.id.viewKonfetti)

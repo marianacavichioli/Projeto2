@@ -16,4 +16,8 @@
     <string name="Rafael">Rafael Sales</string>
     <string name="Renata">Renata Sarmet</string>
     <string name="Yuri">Yuri Lovaho</string>
+    <string name="enter_new_password">Digite a nova senha.</string>
+    <string name="confirm_password">Confirme a nova senha.</string>
+    <string name="password_confirmation_failed">Senhas não conferem, tente novamente.</string>
+    <string name="incorrect_password">Senha incorreta.</string>
 </resources>
