@@ -36,7 +36,13 @@ public class FeedbackActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         for(int i = 0; i< feedbacks.size(); i++){
-            stringFeedback += feedbacks.get(i).getType() + " " + feedbacks.get(i).getWord() + ": " + feedbacks.get(i).getMissCounter() + "\n";
+            if (feedbacks.get(i).getType().toString() == "IMAGE"){
+                stringFeedback += "Imagem ";
+            }
+            else{
+                stringFeedback += "Vídeo ";
+            }
+            stringFeedback += feedbacks.get(i).getWord() + ": " + feedbacks.get(i).getMissCounter() + "\n";
         }
         tentativas.setText(stringFeedback);
     }
