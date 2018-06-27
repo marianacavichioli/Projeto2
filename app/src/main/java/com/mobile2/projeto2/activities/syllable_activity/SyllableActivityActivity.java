@@ -105,6 +105,9 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
     }
 
     private void terminateActivity() {
+        for (int i = 0; i < mSyllableButtonsContainer.getChildCount(); i++) {
+            mSyllableButtonsContainer.getChildAt(i).setClickable(false);
+        }
         blowKonfetti(mSyllableAnswerContainer);
         ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.IMAGE, missCounter));
         mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)

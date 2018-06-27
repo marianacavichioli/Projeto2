@@ -86,6 +86,9 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
     }
 
     private void terminateActivity(View view) {
+        for (int i = 0; i < mAlternativesButtonsContainer.getChildCount(); i++) {
+            mAlternativesButtonsContainer.getChildAt(i).setClickable(false);
+        }
         blowKonfetti(view);
         ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.VIDEO, missCounter));
         mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
