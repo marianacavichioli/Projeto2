@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.feedback.FeedbackActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
 import com.mobile2.projeto2.activities.video_activity.VideoActivity;
 import com.mobile2.projeto2.entity.Word;
@@ -31,6 +32,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     LinearLayoutManager mLinearLayoutManager;
     WordAdapter mAdapter;
+    List<Intent> finalActivitiesList = new ArrayList<>();
     List<Intent> activitiesList = new ArrayList<>();
 
 
@@ -61,8 +63,17 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
         generateIntentsForImage(sellectedWordsForImage);
         generateIntentsForVideo(sellectedWordsForVideo);
         Collections.shuffle(activitiesList);
-        startActivities(activitiesList.toArray(new Intent[0]));
+
+        Intent intentFeedback = new Intent(this,FeedbackActivity.class);
+        finalActivitiesList.add(intentFeedback);
+
+        //TODO: ADICIONAR AQUI A INTENT PARA A TELA DE BLOQUEIO
+
+        finalActivitiesList.addAll(activitiesList);
+
+        startActivities(finalActivitiesList.toArray(new Intent[0]));
         activitiesList.clear();
+        finalActivitiesList.clear();
     }
 
     private void generateIntentsForImage(List<Word> sellectedWordsForImage) {

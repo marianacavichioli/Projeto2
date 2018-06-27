@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.util.ActivitiesFeedback;
 import com.mobile2.projeto2.util.Constans;
 import com.mobile2.projeto2.util.LeaveLockedAppCompatActivity;
+import com.mobile2.projeto2.util.Feedback;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +44,8 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
 
     VideoActivityInterface.Presenter mPresenter;
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private String wordString;
+    private int missCounter = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
 
         Intent extras = getIntent();
         if (extras != null) {
-            String wordString = extras.getStringExtra(Constans.EXTRA_WORD_STRING);
+            wordString = extras.getStringExtra(Constans.EXTRA_WORD_STRING);
 
             if (wordString != null && !wordString.isEmpty()) {
                 mPresenter.fetchWord(wordString);
@@ -74,13 +79,18 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
     public void addRightButton(String word) {
         final Button button = generateButton(word);
         button.setOnClickListener(view -> {
-            blowKonfetti(view);
-            mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::finish));
+            terminateActivity(view);
             view.setClickable(false);
         });
         mAlternativesButtonsContainer.addView(button);
+    }
+
+    private void terminateActivity(View view) {
+        blowKonfetti(view);
+        ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.VIDEO, missCounter));
+        mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::finish));
     }
 
     private Button generateButton(String s) {
@@ -115,6 +125,7 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
     public void addWrongButton(String word) {
         Button button = generateButton(word);
         button.setOnClickListener(view -> {
+            missCounter++;
             mExplosionField.explode(view);
             button.setClickable(false);
         });

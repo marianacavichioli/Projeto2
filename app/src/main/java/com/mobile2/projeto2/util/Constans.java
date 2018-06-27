@@ -7,4 +7,9 @@ public class Constans {
 
     public static final String SHAREDPREF_NAME = "com.mobile2.projeto2.SHAREDPREF";
     public static final String PASSWORD_KEY = "PASSWORD_KEY";
+
+
+    public enum ActType {
+        IMAGE, VIDEO
+    }
 }
