@@ -65,6 +65,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
         return sellectedWordsForVideo;
     }
 
+
     @Override
     public int getItemCount() {
         return mWordList != null ? mWordList.size() : 0;

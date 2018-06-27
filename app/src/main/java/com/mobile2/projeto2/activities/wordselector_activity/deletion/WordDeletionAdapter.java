@@ -56,6 +56,10 @@ public class WordDeletionAdapter extends WordAdapter {
         return sellectedWordsForDeletion;
     }
 
+    public boolean hasSelectedWord(){
+        return !getSellectedWordsForImage().isEmpty() && !getSellectedWordsForVideo().isEmpty() && !sellectedWordsForDeletion.isEmpty();
+    }
+
     @Override
     public int getItemCount() {
         return mWordList != null ? mWordList.size() : 0;

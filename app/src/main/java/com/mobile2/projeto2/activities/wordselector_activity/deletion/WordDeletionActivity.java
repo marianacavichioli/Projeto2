@@ -60,7 +60,7 @@ public class WordDeletionActivity extends AppCompatActivity implements WordDelet
 
     @OnClick(R.id.btn_deletar)
     public void deletar() {
-        if (mAdapter.getSellectedWordsForImage().isEmpty() && mAdapter.getSellectedWordsForVideo().isEmpty()) {
+        if (mAdapter.hasSelectedWord()) {
             Toast.makeText(this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
         } else {
             final List<Word> completeDeletion = new ArrayList<>();
