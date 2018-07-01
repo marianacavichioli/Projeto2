@@ -19,6 +19,8 @@ public class ChooseTemplateActivity extends AppCompatActivity {
     Button mButtonCreateSyllable;
     @BindView(R.id.management_create_video)
     Button mButtonCreateVideo;
+    @BindView(R.id.button3)
+    Button mButtonGoToActivities2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class ChooseTemplateActivity extends AppCompatActivity {
 
         mButtonCreateSyllable.setOnClickListener(v -> goToActivity(CriarTemplateActivity.class));
         mButtonCreateVideo.setOnClickListener(v -> goToActivity(CriarTemplateActivityVideo.class));
+        mButtonGoToActivities2.setOnClickListener(v -> goToActivity(WordSelectorActivity.class));
     }
 
     private void goToActivity(Class activity) {

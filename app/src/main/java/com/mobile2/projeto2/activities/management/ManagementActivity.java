@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.choosetemplate.ChooseTemplateActivity;
+import com.mobile2.projeto2.activities.wordselector_activity.WordSelectorActivity;
 import com.mobile2.projeto2.util.LockedAppCompatActivity;
 import com.mobile2.projeto2.activities.wordselector_activity.deletion.WordDeletionActivity;
 
@@ -18,6 +19,8 @@ public class ManagementActivity extends LockedAppCompatActivity {
     Button mButtonGoToCreate;
     @BindView(R.id.management_button_delete)
     Button mButtonGoToDelete;
+    @BindView(R.id.button2)
+    Button mButtonGoToActivities1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class ManagementActivity extends LockedAppCompatActivity {
 
         mButtonGoToCreate.setOnClickListener(v -> goToActivity(ChooseTemplateActivity.class));
         mButtonGoToDelete.setOnClickListener(v -> goToActivity(WordDeletionActivity.class));
+        mButtonGoToActivities1.setOnClickListener(v -> goToActivity(WordSelectorActivity.class));
     }
 
     private void goToActivity(Class activity) {

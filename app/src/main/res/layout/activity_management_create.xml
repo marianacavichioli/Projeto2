@@ -11,28 +11,41 @@
 
     <Button
         android:id="@+id/management_create_syllable"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button_rounded_corner"
-        android:text="IMAGEM"
+        android:text="CRIAR IMAGEM"
         android:textColor="#FFFF"
-        app:layout_constraintBottom_toTopOf="@id/management_create_video"
+        app:layout_constraintBottom_toTopOf="@+id/management_create_video"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/management_create_video"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button_rounded_corner"
-        android:text="VÍDEO"
+        android:text="CRIAR VÍDEO"
+        android:textColor="#FFFF"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/management_create_syllable" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/button_rounded_corner"
+        android:text="INICIAR ATIVIDADE"
         android:textColor="#FFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/management_create_syllable" />
+        app:layout_constraintTop_toBottomOf="@+id/management_create_video" />
 
 </android.support.constraint.ConstraintLayout>
