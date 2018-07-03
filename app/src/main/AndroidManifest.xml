@@ -66,6 +66,7 @@
             android:name=".activities.feedback.FeedbackActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="activity.exec"/>
+        <activity android:name=".activities.select_level.SelectLevelActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

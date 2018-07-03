@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.feedback.FeedbackActivity;
+import com.mobile2.projeto2.activities.select_level.SelectLevelActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
 import com.mobile2.projeto2.activities.video_activity.VideoActivity;
 import com.mobile2.projeto2.entity.Word;
@@ -34,6 +35,7 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
     WordAdapter mAdapter;
     List<Intent> finalActivitiesList = new ArrayList<>();
     List<Intent> activitiesList = new ArrayList<>();
+
 
 
     @Override
@@ -67,9 +69,13 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
         Intent intentFeedback = new Intent(this,FeedbackActivity.class);
         finalActivitiesList.add(intentFeedback);
 
-        //TODO: ADICIONAR AQUI A INTENT PARA A TELA DE BLOQUEIO
-
         finalActivitiesList.addAll(activitiesList);
+
+        // Só seleciona dificuldade para atividade de silaba com imagem
+        if(!sellectedWordsForImage.isEmpty()) {
+            Intent intentSelectLevel = new Intent(this, SelectLevelActivity.class);
+            finalActivitiesList.add(intentSelectLevel);
+        }
 
         startActivities(finalActivitiesList.toArray(new Intent[0]));
         activitiesList.clear();

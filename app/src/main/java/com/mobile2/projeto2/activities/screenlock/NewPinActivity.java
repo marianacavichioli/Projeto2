@@ -36,6 +36,7 @@ public class NewPinActivity extends LockedAppCompatActivity implements PinLockLi
         setContentView(R.layout.activity_lockscreen);
         ButterKnife.bind(this);
         mPinLockView.setPinLockListener(this);
+        mPinLockView.setPinLength(4);
         mIndicatorDots.setPinLength(mPinLockView.getPinLength());
         mPinLockView.attachIndicatorDots(mIndicatorDots);
     }
