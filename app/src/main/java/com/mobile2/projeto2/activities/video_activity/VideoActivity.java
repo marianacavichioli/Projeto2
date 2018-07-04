@@ -103,7 +103,7 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
                 .asGif()
                 .into((ImageView) view.findViewById(R.id.gif));
 
-        ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.IMAGE, missCounter));
+        ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.VIDEO, missCounter));
         mCompositeDisposable.add(Completable.complete().delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
