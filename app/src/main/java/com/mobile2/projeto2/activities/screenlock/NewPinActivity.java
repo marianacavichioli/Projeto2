@@ -39,6 +39,10 @@ public class NewPinActivity extends LockedAppCompatActivity implements PinLockLi
         mPinLockView.setPinLength(4);
         mIndicatorDots.setPinLength(mPinLockView.getPinLength());
         mPinLockView.attachIndicatorDots(mIndicatorDots);
+
+        if (Password.getPIN().isEmpty()) {
+            mToaster.toast(R.string.enter_new_password);
+        }
     }
 
     @Override

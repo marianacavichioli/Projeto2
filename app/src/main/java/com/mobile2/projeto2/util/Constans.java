@@ -7,6 +7,7 @@ public class Constans {
 
     public static final String SHAREDPREF_NAME = "com.mobile2.projeto2.SHAREDPREF";
     public static final String PASSWORD_KEY = "PASSWORD_KEY";
+    public static final String EXTRA_SYLLABLE_LEVEL = "SYLLABLE_LEVEL";
 
 
     public enum ActType {

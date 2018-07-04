@@ -5,6 +5,8 @@ import android.net.Uri;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
 
+import java.util.List;
+
 /**
  * Created by cesar on 5/6/2018.
  */
@@ -21,6 +23,8 @@ public interface SyllableActivityInterface {
         void setAsset(Uri uri);
 
         void onError(String message);
+
+        void preAnswerSyllables(List<Integer> indexes);
     }
 
     public interface Presenter {

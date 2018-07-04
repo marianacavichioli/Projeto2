@@ -3,14 +3,16 @@ package com.mobile2.projeto2.activities.wordselector_activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.activities.feedback.FeedbackActivity;
-import com.mobile2.projeto2.activities.select_level.SelectLevelActivity;
 import com.mobile2.projeto2.activities.syllable_activity.SyllableActivityActivity;
 import com.mobile2.projeto2.activities.video_activity.VideoActivity;
 import com.mobile2.projeto2.entity.Word;
@@ -37,7 +39,6 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
     List<Intent> activitiesList = new ArrayList<>();
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,35 +60,31 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
     }
 
     private void goToActivities() {
-        List<Word> sellectedWordsForImage = mAdapter.getSellectedWordsForImage();
         List<Word> sellectedWordsForVideo = mAdapter.getSellectedWordsForVideo();
 
-        generateIntentsForImage(sellectedWordsForImage);
         generateIntentsForVideo(sellectedWordsForVideo);
+
         Collections.shuffle(activitiesList);
 
-        Intent intentFeedback = new Intent(this,FeedbackActivity.class);
+        Intent intentFeedback = new Intent(this, FeedbackActivity.class);
         finalActivitiesList.add(intentFeedback);
 
         finalActivitiesList.addAll(activitiesList);
 
-        // Só seleciona dificuldade para atividade de silaba com imagem
-        if(!sellectedWordsForImage.isEmpty()) {
-            Intent intentSelectLevel = new Intent(this, SelectLevelActivity.class);
-            finalActivitiesList.add(intentSelectLevel);
-        }
 
         startActivities(finalActivitiesList.toArray(new Intent[0]));
         activitiesList.clear();
         finalActivitiesList.clear();
     }
 
-    private void generateIntentsForImage(List<Word> sellectedWordsForImage) {
+    private void generateIntentsForImage(List<Word> sellectedWordsForImage, int level) {
         for (int i = 0; i < sellectedWordsForImage.size(); i++) {
             Intent intent = new Intent(this, SyllableActivityActivity.class);
             intent.putExtra(Constans.EXTRA_WORD_STRING, sellectedWordsForImage.get(i).toString());
+            intent.putExtra(Constans.EXTRA_SYLLABLE_LEVEL, level);
             activitiesList.add(intent);
         }
+        goToActivities();
     }
 
     private void generateIntentsForVideo(List<Word> sellectedWordsForVideo) {
@@ -105,10 +102,31 @@ public class WordSelectorActivity extends AppCompatActivity implements WordSelec
 
     @OnClick(R.id.btn_iniciar)
     public void iniciar() {
-        if (mAdapter.getSellectedWordsForImage().isEmpty() && mAdapter.getSellectedWordsForVideo().isEmpty()) {
+        List<Word> sellectedWordsForImage = mAdapter.getSellectedWordsForImage();
+        if (sellectedWordsForImage.isEmpty() && mAdapter.getSellectedWordsForVideo().isEmpty()) {
             Toast.makeText(WordSelectorActivity.this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
         } else {
-            goToActivities();
+            // Só seleciona dificuldade para atividade de silaba com imagem
+            if (!sellectedWordsForImage.isEmpty()) {
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                View view = LayoutInflater.from(this).inflate(R.layout.activity_select_level, null);
+                alertDialog.setView(view);
+                view.findViewById(R.id.level1).setOnClickListener(v -> {
+                    generateIntentsForImage(sellectedWordsForImage, 1);
+                    alertDialog.dismiss();
+                });
+                view.findViewById(R.id.level2).setOnClickListener(v -> {
+                    generateIntentsForImage(sellectedWordsForImage, 2);
+                    alertDialog.dismiss();
+                });
+                view.findViewById(R.id.level3).setOnClickListener(v -> {
+                    generateIntentsForImage(sellectedWordsForImage, 3);
+                    alertDialog.dismiss();
+                });
+                alertDialog.show();
+            } else {
+                goToActivities();
+            }
         }
     }
 

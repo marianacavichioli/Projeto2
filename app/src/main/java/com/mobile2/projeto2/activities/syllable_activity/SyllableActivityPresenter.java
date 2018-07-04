@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by cesar on 5/6/2018.
@@ -21,11 +22,15 @@ import java.util.Random;
 public class SyllableActivityPresenter implements SyllableActivityInterface.Presenter {
 
     private SyllableActivityInterface.View mView;
+    private int level;
     private Word mWord;
     private List<Syllable> mInGameSyllables = new ArrayList<>();
+    private List<Syllable> mInGamePreAnsweredSyllables = new ArrayList<>();
+    private List<Integer> mIndexAnswered = new ArrayList<>();
 
-    public SyllableActivityPresenter(SyllableActivityInterface.View view) {
+    public SyllableActivityPresenter(SyllableActivityInterface.View view, int level) {
         this.mView = view;
+        this.level = level;
     }
 
     @SuppressLint("CheckResult")
@@ -34,8 +39,8 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
         GeneralRepository.getWord(wordString)
                 .subscribe(word -> {
                     this.mWord = word;
-                    setupForWord();
                     mView.setWord(word);
+                    setupForWord();
                     mView.setAsset(Uri.parse(word.getImageFilePath()));
                 }, throwable -> {
                     throwable.printStackTrace();
@@ -44,14 +49,25 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
     }
 
     private void setupForWord() {
-        int numberOfAlternatives = mWord.syllableCount() * 2 + 1;
+        int numberOfAlternatives = 9;
         int numberOfIncorrectAlternatives = numberOfAlternatives - mWord.syllableCount();
 
+        int numberOfAnsweredAlternatives = (int) Math.ceil(mWord.syllableCount() / level);
+        numberOfAnsweredAlternatives = numberOfAnsweredAlternatives == mWord.syllableCount() ? --numberOfAnsweredAlternatives : numberOfAnsweredAlternatives;
+
+        for (int i = 0; i < numberOfAnsweredAlternatives; i++) {
+            Syllable randomSyllable = getRandomSyllable();
+            mInGamePreAnsweredSyllables.add(randomSyllable);
+        }
+
+        mView.preAnswerSyllables(mIndexAnswered);
+
         mInGameSyllables.addAll(mWord.getSyllables());
+        mInGameSyllables.removeAll(mInGamePreAnsweredSyllables);
 
         for (int i = 0; i < numberOfIncorrectAlternatives; i++) {
             Syllable randomSyllable = SyllableList.getRandomSyllable();
-            if (!mInGameSyllables.contains(randomSyllable)) {
+            if (!mInGameSyllables.contains(randomSyllable) && !mWord.containsSyllable(randomSyllable)) {
                 mInGameSyllables.add(randomSyllable);
             }
         }
@@ -64,5 +80,14 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
                 mView.addWrongButton(mInGameSyllable);
             }
         }
+    }
+
+    private Syllable getRandomSyllable() {
+        int random;
+        do {
+            random = new Random().nextInt(mWord.syllableCount());
+        } while (mIndexAnswered.contains(random));
+        mIndexAnswered.add(random);
+        return mWord.getSyllableAt(random);
     }
 }

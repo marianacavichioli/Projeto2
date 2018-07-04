@@ -6,9 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +26,7 @@ import com.mobile2.projeto2.util.LeaveLockedAppCompatActivity;
 import com.mobile2.projeto2.util.Feedback;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -69,16 +68,17 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
         setContentView(R.layout.activity_template_one_exec);
         ButterKnife.bind(this);
         mExplosionField = ExplosionField.attach2Window(this);
-        mPresenter = new SyllableActivityPresenter(this);
 
         Intent extras = getIntent();
         if (extras != null) {
             wordString = extras.getStringExtra(Constans.EXTRA_WORD_STRING);
+            mPresenter = new SyllableActivityPresenter(this, extras.getIntExtra(Constans.EXTRA_SYLLABLE_LEVEL, 1));
 
             if (wordString != null && !wordString.isEmpty()) {
                 mPresenter.fetchWord(wordString);
                 return;
             }
+
         }
 
         finish();
@@ -126,6 +126,15 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
                 rightCounter++;
                 break;
             }
+        }
+    }
+
+    @Override
+    public void preAnswerSyllables(List<Integer> indexes) {
+        for (Integer index : indexes) {
+            TextView textView = mSyllableAnswerContainer.getChildAt(index).findViewById(R.id.text);
+            textView.setVisibility(View.VISIBLE);
+            rightCounter++;
         }
     }
 
