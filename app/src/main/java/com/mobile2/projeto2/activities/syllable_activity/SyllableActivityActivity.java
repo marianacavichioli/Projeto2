@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.activities.gif;
+import com.mobile2.projeto2.activities.main.MainActivity;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.util.Constans;
@@ -75,7 +77,26 @@ public class SyllableActivityActivity extends AppCompatActivity implements Sylla
             }
         }
 
+        Thread timer = new Thread(){
+            public void run(){
+                try{
+                    sleep(5000);
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                } finally {
+                    Intent intent = new Intent(SyllableActivityActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
+        timer.start();
+
+
+
         finish();
+
+
     }
 
     @Override

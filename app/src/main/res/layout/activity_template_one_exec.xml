@@ -49,4 +49,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_exec_answer" />
+
+    <p1.droidsonroid.gif.GifImagemView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/cachorro"
+        />
 </android.support.constraint.ConstraintLayout>
