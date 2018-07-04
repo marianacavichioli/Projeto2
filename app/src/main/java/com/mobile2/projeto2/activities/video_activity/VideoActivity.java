@@ -6,15 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.util.ActivitiesFeedback;
 import com.mobile2.projeto2.util.Constans;
@@ -79,21 +82,34 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
     public void addRightButton(String word) {
         final Button button = generateButton(word);
         button.setOnClickListener(view -> {
-            terminateActivity(view);
+            blowKonfetti(view);
+            terminateActivity();
             view.setClickable(false);
         });
         mAlternativesButtonsContainer.addView(button);
     }
 
-    private void terminateActivity(View view) {
+    private void terminateActivity() {
         for (int i = 0; i < mAlternativesButtonsContainer.getChildCount(); i++) {
             mAlternativesButtonsContainer.getChildAt(i).setClickable(false);
         }
-        blowKonfetti(view);
-        ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.VIDEO, missCounter));
-        mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = LayoutInflater.from(this).inflate(R.layout.congrats, null);
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.setView(view);
+        alertDialog.show();
+        Glide.with(this)
+                .load(Constans.getRandomGif())
+                .asGif()
+                .into((ImageView) view.findViewById(R.id.gif));
+
+        ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.IMAGE, missCounter));
+        mCompositeDisposable.add(Completable.complete().delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::finish));
+                .subscribe(() -> {
+                    alertDialog.dismiss();
+                    finish();
+                }));
     }
 
     private Button generateButton(String s) {

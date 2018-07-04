@@ -155,6 +155,16 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
                     presenter.getTemplate(caminhoFoto));
 
             String[] silabas = palavra.split("/");
+            if (silabas.length > 9) {
+                showToast("A palavra pode conter no máximo 9 sílabas.");
+                return;
+            }
+            for (String silaba : silabas) {
+                if (silaba.isEmpty()) {
+                    showToast("Uma sílaba não pode ser vazia.");
+                    return;
+                }
+            }
             GeneralRepository.saveWord(new Word("file://" + caminhoFoto, null, silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);

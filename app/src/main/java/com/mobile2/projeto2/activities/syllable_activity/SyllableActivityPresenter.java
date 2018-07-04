@@ -50,10 +50,10 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
 
     private void setupForWord() {
         int numberOfAlternatives = 9;
-        int numberOfIncorrectAlternatives = numberOfAlternatives - mWord.syllableCount();
-
         int numberOfAnsweredAlternatives = (int) Math.ceil(mWord.syllableCount() / level);
         numberOfAnsweredAlternatives = numberOfAnsweredAlternatives == mWord.syllableCount() ? --numberOfAnsweredAlternatives : numberOfAnsweredAlternatives;
+        int numberOfIncorrectAlternatives = numberOfAlternatives - mWord.syllableCount() + numberOfAnsweredAlternatives;
+
 
         for (int i = 0; i < numberOfAnsweredAlternatives; i++) {
             Syllable randomSyllable = getRandomSyllable();
@@ -63,7 +63,11 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
         mView.preAnswerSyllables(mIndexAnswered);
 
         mInGameSyllables.addAll(mWord.getSyllables());
-        mInGameSyllables.removeAll(mInGamePreAnsweredSyllables);
+        Collections.sort(mIndexAnswered);
+        Collections.reverse(mIndexAnswered);
+        for (int integer : mIndexAnswered) {
+            mInGameSyllables.remove(integer);
+        }
 
         for (int i = 0; i < numberOfIncorrectAlternatives; i++) {
             Syllable randomSyllable = SyllableList.getRandomSyllable();

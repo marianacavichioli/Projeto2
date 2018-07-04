@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
@@ -27,6 +29,7 @@ import com.mobile2.projeto2.util.Feedback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -110,10 +113,23 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
             mSyllableButtonsContainer.getChildAt(i).setClickable(false);
         }
         blowKonfetti(mSyllableAnswerContainer);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = LayoutInflater.from(this).inflate(R.layout.congrats, null);
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.setView(view);
+        alertDialog.show();
+        Glide.with(this)
+                .load(Constans.getRandomGif())
+                .asGif()
+                .into((ImageView) view.findViewById(R.id.gif));
+
         ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.IMAGE, missCounter));
-        mCompositeDisposable.add(Completable.complete().delay(2, TimeUnit.SECONDS)
+        mCompositeDisposable.add(Completable.complete().delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::finish));
+                .subscribe(() -> {
+                    alertDialog.dismiss();
+                    finish();
+                }));
     }
 
     private void showAnswerClicked(Syllable syllable) {
@@ -200,9 +216,8 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
     @Override
     public void setAsset(Uri uri) {
         try {
-            Picasso.with(this)
+            Glide.with(this)
                     .load(uri)
-                    .fit()
                     .centerCrop()
                     .into(mImageView);
         } catch (Exception e) {
