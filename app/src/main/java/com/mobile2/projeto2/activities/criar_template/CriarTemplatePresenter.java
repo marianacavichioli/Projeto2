@@ -1,48 +1,29 @@
 package com.mobile2.projeto2.activities.criar_template;
 
-import android.Manifest;
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.mobile2.projeto2.entidades.Template;
+import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
+import com.mobile2.projeto2.repository.GeneralRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import permissions.dispatcher.NeedsPermission;
+public class CriarTemplatePresenter implements CriarTemplateInterface.Presenter {
+    private CriarTemplateInterface.View view;
 
-public class CriarTemplatePresenter {
-    private CriarTemplateView view;
-    private Context context;
 
-    public CriarTemplatePresenter(CriarTemplateView view, Context context) {
+    public CriarTemplatePresenter(CriarTemplateInterface.View view) {
         this.view = view;
-        this.context = context;
     }
 
-    public Template getTemplate(String caminhoFoto) {
-        Template template = null;
-
-        if(!caminhoFoto.isEmpty()) {
-            template = new Template();
-            template.setCaminhoFoto(caminhoFoto);
-        }
-
-        return template;
-    }
-
-
-    public void escreveAsImagens(Bitmap bmp, String caminhoFoto) {
+    @Override
+    public void copyImageToAppFolder(Bitmap bmp, String caminhoFoto) {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -55,19 +36,42 @@ public class CriarTemplatePresenter {
         }
     }
 
-    public List<String> validar(Boolean fotoAnexada, String palavra) {
+    @Override
+    public List<String> validateFields(boolean fotoAnexada, List<String> silabas) {
         List<String> mensagens = new ArrayList<String>();
         if (!fotoAnexada) {
             mensagens.add("Uma foto deve ser adicionada");
         }
-        if (palavra.trim().length() == 0) {
+        if (silabas.isEmpty()) {
             mensagens.add("Uma palavra deve ser preenchida");
-        }
-        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false) {
-            mensagens.add("Palavra só pode conter letras e barras / ");
         }
 
         return (mensagens.isEmpty() ? null : mensagens);
     }
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void getSyllables() {
+        GeneralRepository.getAllSyllables()
+                .map(list -> {
+                    List<String> stringList = new ArrayList<>();
+                    for (Syllable syllable : list) {
+                        stringList.add(syllable.toString().toUpperCase());
+                    }
+                    return stringList;
+                }).subscribe(strings -> view.setSyllableList(strings), throwable -> {
+            throwable.printStackTrace();
+            view.onError(throwable.getMessage());
+        });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void saveWord(Word word) {
+        GeneralRepository.saveWord(word)
+                .subscribe(view::onWordSaved, throwable -> {
+                    throwable.printStackTrace();
+                    view.onError(throwable.getMessage());
+                });
+    }
 }

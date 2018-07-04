@@ -14,18 +14,23 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile2.projeto2.R;
+import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.repository.GeneralRepository;
+import com.mobile2.projeto2.util.SyllableList;
+import com.mobile2.projeto2.util.Toaster;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,16 +44,17 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class CriarTemplateActivity extends AppCompatActivity implements CriarTemplateView {
+public class CriarTemplateActivity extends AppCompatActivity implements CriarTemplateInterface.View, AdapterView.OnItemClickListener {
 
 
     @BindView(R.id.formulario_foto)
     public ImageView campoFoto;
+    @BindView(R.id.editText_Palavra)
+    public AutoCompleteTextView syllableInput;
 
-    private CriarTemplatePresenter presenter;
-
+    private CriarTemplateInterface.Presenter presenter;
+    private List<String> mWordSyllables = new ArrayList<>();
     private String palavra;
-    public EditText editText_Palavra;
 
 
     private boolean fotoAnexada = false;
@@ -63,12 +69,18 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
         setContentView(R.layout.activity_criar_template);
 
         ButterKnife.bind(this);
-        presenter = new CriarTemplatePresenter(this, this);
+        presenter = new CriarTemplatePresenter(this);
+        presenter.getSyllables();
+        syllableInput.setOnItemClickListener(this);
 
-        editText_Palavra = findViewById(R.id.editText_Palavra);
     }
 
-
+    @Override
+    public void setSyllableList(List<String> syllableList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, syllableList);
+        syllableInput.setAdapter(adapter);
+    }
 
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -99,7 +111,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
 
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
     public void escreveImagens(Bitmap bmp) {
-        presenter.escreveAsImagens(bmp,caminhoFoto);
+        presenter.copyImageToAppFolder(bmp,caminhoFoto);
     }
 
     public void exibeFoto() {
@@ -134,10 +146,8 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void abrirGaleria() {
         Intent intentGaleria = new Intent();
-        // Show only images, no videos or anything else
         intentGaleria.setType("image/*");
         intentGaleria.setAction(Intent.ACTION_GET_CONTENT);
-        // Always show the chooser (if there are multiple options available)
         startActivityForResult(Intent.createChooser(intentGaleria, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
@@ -146,27 +156,26 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     @OnClick(R.id.formulario_submit)
     public void salvar() {
 
-        palavra = editText_Palavra.getText().toString();
-
-        List<String> mensagens = presenter.validar(fotoAnexada, palavra);
+        List<String> mensagens = presenter.validateFields(fotoAnexada, mWordSyllables);
 
         if (mensagens == null) {
-            Intent resultado = new Intent().putExtra("template",
-                    presenter.getTemplate(caminhoFoto));
-
-            String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(caminhoFoto, null, silabas))
-                    .subscribe(() -> {
-                        setResult(Activity.RESULT_OK, resultado);
-                        finish();
-                    }, throwable -> {
-                        throwable.printStackTrace();
-                        setResult(RESULT_CANCELED);
-                        finish();
-                    });
+            Word word = new Word(caminhoFoto, null, mWordSyllables.toArray(new String[0]));
+            presenter.saveWord(word);
         } else {
             showToast(mensagens.get(0));
         }
+    }
+
+    @Override
+    public void onWordSaved() {
+        setResult(Activity.RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
@@ -179,5 +188,16 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        final TextView textView = (TextView) view;
+        final String syllable = textView.getText().toString();
+        syllableInput.getEditableText().clear();
 
+        if (!syllable.matches("^[a-zA-Z\\u00C0-\\u00FF]*$")) {
+            showToast("Sílaba só pode conter letras");
+            return;
+        }
+        mWordSyllables.add(syllable);
+    }
 }

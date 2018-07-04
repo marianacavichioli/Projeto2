@@ -20,6 +20,12 @@ public class Toaster {
         mToast.show();
     }
 
+    public void toast(String text) {
+        cancelToast();
+        mToast = Toast.makeText(mContext, text, Toast.LENGTH_LONG);
+        mToast.show();
+    }
+
     public void cancelToast() {
         if (mToast != null) {
             mToast.cancel();
