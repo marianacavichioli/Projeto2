@@ -33,37 +33,33 @@ public class Project2Application extends Application {
 
     private static ProjectDatabase database;
 
+    @SuppressLint("CheckResult")
     @Override
     public void onCreate() {
         super.onCreate();
         database = Room.databaseBuilder(this, ProjectDatabase.class, "database")
                 .fallbackToDestructiveMigration()
-                .addCallback(new RoomDatabase.Callback() {
-                    @SuppressLint("CheckResult")
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        Completable.fromAction(() -> {
-                            SyllableData syllables [] = new SyllableData[SyllableList.getSyl().length];
-                            for (int i = 0; i < SyllableList.getSyl().length; i++) {
-                                syllables[i] = new SyllableData(SyllableList.getSyl()[i]);
-                            }
-                            database.getDao().insert(syllables);
-                        })
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(() -> Log.d("ROOM", "DB created, prepopulate complete."),
-                                        Throwable::printStackTrace);
-                    }
-                }).build();
+                .build();
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF_NAME, Context.MODE_PRIVATE);
-        Password.setPIN(sharedPreferences.getString(PASSWORD_KEY, ""));
+        if (!sharedPreferences.contains(PASSWORD_KEY)) {
+            Completable.fromAction(() -> {
+                SyllableData syllables [] = new SyllableData[SyllableList.getSyl().length];
+                for (int i = 0; i < SyllableList.getSyl().length; i++) {
+                    syllables[i] = new SyllableData(SyllableList.getSyl()[i]);
+                }
+                database.getDao().insert(syllables);
+            })
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(() -> Log.d("ROOM", "DB created, prepopulate complete."),
+                            Throwable::printStackTrace);
+        }
+        String pin = sharedPreferences.getString(PASSWORD_KEY, "");
+        Password.setPIN(pin);
+
     }
 
     public synchronized static ProjectDatabase getDatabase() {
         return database;
-    }
-
-    public static Context getContext(){
-        return getContext();
     }
 }
