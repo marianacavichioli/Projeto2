@@ -36,7 +36,7 @@ public class SyllableActivityPresenter implements SyllableActivityInterface.Pres
                     this.mWord = word;
                     setupForWord();
                     mView.setWord(word);
-                    mView.setAsset(Uri.fromFile(new File(word.getImageFilePath())));
+                    mView.setAsset(Uri.parse(word.getImageFilePath()));
                 }, throwable -> {
                     throwable.printStackTrace();
                     mView.onError(throwable.getMessage());

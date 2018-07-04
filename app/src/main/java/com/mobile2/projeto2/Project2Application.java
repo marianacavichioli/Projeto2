@@ -7,6 +7,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -19,6 +20,8 @@ import com.mobile2.projeto2.repository.room.ProjectDatabase;
 import com.mobile2.projeto2.util.Constans;
 import com.mobile2.projeto2.util.Password;
 import com.mobile2.projeto2.util.SyllableList;
+
+import java.io.File;
 
 import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
@@ -33,7 +36,6 @@ public class Project2Application extends Application {
 
     private static ProjectDatabase database;
 
-    @SuppressLint("CheckResult")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -43,20 +45,39 @@ public class Project2Application extends Application {
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF_NAME, Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(PASSWORD_KEY)) {
-            Completable.fromAction(() -> {
-                SyllableData syllables [] = new SyllableData[SyllableList.getSyl().length];
-                for (int i = 0; i < SyllableList.getSyl().length; i++) {
-                    syllables[i] = new SyllableData(SyllableList.getSyl()[i]);
-                }
-                database.getDao().insert(syllables);
-            })
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(() -> Log.d("ROOM", "DB created, prepopulate complete."),
-                            Throwable::printStackTrace);
+            prePopulate();
         }
         String pin = sharedPreferences.getString(PASSWORD_KEY, "");
         Password.setPIN(pin);
 
+    }
+
+    @SuppressLint("CheckResult")
+    private void prePopulate() {
+        Completable.fromAction(() -> {
+            SyllableData syllables[] = new SyllableData[SyllableList.getSyl().length];
+            for (int i = 0; i < SyllableList.getSyl().length; i++) {
+                syllables[i] = new SyllableData(SyllableList.getSyl()[i]);
+            }
+            database.getDao().insert(syllables);
+        })
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> Log.d("ROOM", "DB created, prepopulate complete."),
+                        Throwable::printStackTrace);
+
+
+        Uri ballUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.ball);
+        Uri diceUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.dice);
+        Uri grapeUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.grape);
+        Uri strawberryUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.strawberry);
+        GeneralRepository.saveWord(new Word(ballUri.toString() , null, "bo", "la"))
+                .subscribe();
+        GeneralRepository.saveWord(new Word(diceUri.toString(), null, "da", "do"))
+                .subscribe();
+        GeneralRepository.saveWord(new Word(grapeUri.toString(), null, "u", "va"))
+                .subscribe();
+        GeneralRepository.saveWord(new Word(strawberryUri.toString(), null, "mo", "ran", "go"))
+                .subscribe();
     }
 
     public synchronized static ProjectDatabase getDatabase() {
