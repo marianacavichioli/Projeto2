@@ -155,7 +155,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
                     presenter.getTemplate(caminhoFoto));
 
             String[] silabas = palavra.split("/");
-            GeneralRepository.saveWord(new Word(caminhoFoto, null, silabas))
+            GeneralRepository.saveWord(new Word("file://" + caminhoFoto, null, silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
                         finish();
