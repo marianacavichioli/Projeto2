@@ -28,6 +28,7 @@ public class NewPinActivity extends LockedAppCompatActivity implements PinLockLi
     IndicatorDots mIndicatorDots;
 
     String newPin = "";
+    boolean firstTime = false;
     Toaster mToaster = new Toaster(this);
 
     @Override
@@ -42,13 +43,20 @@ public class NewPinActivity extends LockedAppCompatActivity implements PinLockLi
 
         if (Password.getPIN().isEmpty()) {
             mToaster.toast(R.string.enter_new_password);
+            firstTime = true;
+        }
+        else{
+            mToaster.toast(R.string.enter_your_password);
         }
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (newPin.isEmpty()) {
+        if(firstTime){
+            finish();
+        }
+        else if (newPin.isEmpty()) {
             mToaster.toast(R.string.enter_new_password);
         }
     }

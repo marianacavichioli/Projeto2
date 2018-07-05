@@ -17,7 +17,9 @@
     <string name="Renata">Renata Sarmet</string>
     <string name="Yuri">Yuri Lovaho</string>
     <string name="enter_new_password">Digite a nova senha.</string>
+    <string name="enter_your_password">Digite a sua senha</string>
     <string name="confirm_password">Confirme a nova senha.</string>
+    <string name="sucess_change_password">Senha alterada com sucesso!</string>
     <string name="password_confirmation_failed">Senhas não conferem, tente novamente.</string>
     <string name="incorrect_password">Senha incorreta.</string>
 </resources>
