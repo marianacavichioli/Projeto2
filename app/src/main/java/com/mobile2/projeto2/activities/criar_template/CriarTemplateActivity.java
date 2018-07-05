@@ -168,6 +168,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
             GeneralRepository.saveWord(new Word("file://" + caminhoFoto, null, silabas))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
+                        showToast("Atividade cadastrada com sucesso!");
                         finish();
                     }, throwable -> {
                         throwable.printStackTrace();

@@ -141,6 +141,7 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
             GeneralRepository.saveWord(new Word(null, caminhoVideoComprimido, palavra))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
+                        showToast("Atividade cadastrada com sucesso!");
                         finish();
                     }, throwable -> {
                         throwable.printStackTrace();

@@ -70,12 +70,19 @@ public class WordDeletionActivity extends AppCompatActivity implements WordDelet
             imageOnlyDeletion.addAll(mAdapter.getSellectedWordsForImage());
             videoOnlyDeletion.addAll(mAdapter.getSellectedWordsForVideo());
             completeDeletion.addAll(mAdapter.getSellectedWordsForDeletion());
-            imageOnlyDeletion.removeAll(completeDeletion);
-            videoOnlyDeletion.removeAll(completeDeletion);
+            if(completeDeletion.isEmpty() && imageOnlyDeletion.isEmpty() && videoOnlyDeletion.isEmpty()){
+                Toast.makeText(this, "Selecione pelo menos 1 palavra", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                imageOnlyDeletion.removeAll(completeDeletion);
+                videoOnlyDeletion.removeAll(completeDeletion);
 
-            mPresenter.deleteImageWords(imageOnlyDeletion);
-            mPresenter.deleteVideoWords(videoOnlyDeletion);
-            mPresenter.deleteWords(completeDeletion);
+                mPresenter.deleteImageWords(imageOnlyDeletion);
+                mPresenter.deleteVideoWords(videoOnlyDeletion);
+                mPresenter.deleteWords(completeDeletion);
+
+                Toast.makeText(this, "Deletado com sucesso!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
