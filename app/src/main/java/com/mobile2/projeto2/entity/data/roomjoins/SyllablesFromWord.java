@@ -15,15 +15,14 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  */
 
 @Entity(
+        primaryKeys = {"word", "syllable", "position"},
         foreignKeys = {@ForeignKey(entity = WordData.class, parentColumns = "word", childColumns = "word", onDelete = CASCADE),
                          @ForeignKey(entity = SyllableData.class, parentColumns = "syllable", childColumns = "syllable", onDelete = CASCADE)}
                          )
 public class SyllablesFromWord {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
     @NonNull public final String word;
     @NonNull public final String syllable;
-    public int position;
+    @NonNull public int position;
 
     public SyllablesFromWord(String word, String syllable, int position) {
         this.word = word;

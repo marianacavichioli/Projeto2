@@ -41,6 +41,12 @@ public class GeneralRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public static Single<List<Word>> getAllWordsWithAsset() {
+        return databaseDao.getAllWordsWithAsset()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public static Single<List<Word>> getAllWordsWithImages() {
         return databaseDao.getAllWordsWithImages()
                 .subscribeOn(Schedulers.io())

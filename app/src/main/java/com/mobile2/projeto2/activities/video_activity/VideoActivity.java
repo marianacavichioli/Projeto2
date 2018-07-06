@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -49,6 +50,7 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private String wordString;
     private int missCounter = 0;
+    private int randomGif;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +60,11 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
         mExplosionField = ExplosionField.attach2Window(this);
         mPresenter = new VideoActivityPresenter(this);
         mVideoView.setOnPreparedListener(mp -> mp.setLooping(true));
+
+        randomGif = Constans.getRandomGif();
+        Glide.with(this)
+                .load(randomGif)
+                .preload();
 
         Intent extras = getIntent();
         if (extras != null) {
@@ -93,15 +100,7 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
         for (int i = 0; i < mAlternativesButtonsContainer.getChildCount(); i++) {
             mAlternativesButtonsContainer.getChildAt(i).setClickable(false);
         }
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        View view = LayoutInflater.from(this).inflate(R.layout.congrats, null);
-        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        alertDialog.setView(view);
-        alertDialog.show();
-        Glide.with(this)
-                .load(Constans.getRandomGif())
-                .asGif()
-                .into((ImageView) view.findViewById(R.id.gif));
+        AlertDialog alertDialog = showEndingGif(randomGif);
 
         ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.VIDEO, missCounter));
         mCompositeDisposable.add(Completable.complete().delay(3, TimeUnit.SECONDS)
@@ -110,6 +109,19 @@ public class VideoActivity extends LeaveLockedAppCompatActivity implements Video
                     alertDialog.dismiss();
                     finish();
                 }));
+    }
+
+    @NonNull
+    private AlertDialog showEndingGif(int resource) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = LayoutInflater.from(this).inflate(R.layout.congrats, null);
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.setView(view);
+        alertDialog.show();
+        Glide.with(this)
+                .load(resource)
+                .into((ImageView) view.findViewById(R.id.gif));
+        return alertDialog;
     }
 
     private Button generateButton(String s) {

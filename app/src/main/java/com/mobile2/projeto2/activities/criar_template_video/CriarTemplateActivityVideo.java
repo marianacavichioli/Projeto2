@@ -165,12 +165,15 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
     public List<String> validar() {
         List<String> mensagens = new ArrayList<String>();
         if (!videoAnexado) {
-            mensagens.add("Um vídeo deve ser adicionado");
+            mensagens.add("Um vídeo deve ser adicionado.");
         }
         if (palavra.trim().length() == 0) {
-            mensagens.add("Uma palavra deve ser preenchida");
+            mensagens.add("Uma palavra deve ser preenchida.");
         }
-        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF/]*$") == false) {
+        if (palavra.trim().length() > 19) {
+            mensagens.add("Uma palavra deve conter no máximo 19 letras.");
+        }
+        if (palavra.matches("^[a-zA-Z\\u00C0-\\u00FF]*$") == false) {
             mensagens.add("Palavra só pode conter letras");
         }
 

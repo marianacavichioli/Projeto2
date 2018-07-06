@@ -19,7 +19,7 @@ public class WordSelectorPresenter implements WordSelectorInterface.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void fetchWordList() {
-        GeneralRepository.getAllWords()
+        GeneralRepository.getAllWordsWithAsset()
                 .subscribe(mView::setWordList, throwable -> {
                     throwable.printStackTrace();
                     mView.onError(throwable.getMessage());

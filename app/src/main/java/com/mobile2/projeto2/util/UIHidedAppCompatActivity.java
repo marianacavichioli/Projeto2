@@ -28,7 +28,7 @@ public abstract class UIHidedAppCompatActivity extends AppCompatActivity  {
         }
     }
 
-    private void hideSystemUI() {
+    protected void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
         // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY

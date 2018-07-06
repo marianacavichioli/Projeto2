@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Word;
 import com.mobile2.projeto2.repository.GeneralRepository;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -105,6 +106,7 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
     public void exibeFoto() {
         Picasso.with(this)
                 .load(Uri.parse("file://" + caminhoFoto))
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .fit()
                 .centerCrop()
                 .into(campoFoto);
@@ -162,6 +164,10 @@ public class CriarTemplateActivity extends AppCompatActivity implements CriarTem
             for (String silaba : silabas) {
                 if (silaba.isEmpty()) {
                     showToast("Uma sílaba não pode ser vazia.");
+                    return;
+                }
+                if (silaba.length() > 5) {
+                    showToast("Uma sílaba não pode conter mais que 5 letras.");
                     return;
                 }
             }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.request.RequestOptions;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.entity.Syllable;
 import com.mobile2.projeto2.entity.Word;
@@ -64,6 +67,7 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
     private int totalSyllabes;
     int missCounter = 0;
     private String wordString;
+    private int randomGif;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +75,11 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
         setContentView(R.layout.activity_template_one_exec);
         ButterKnife.bind(this);
         mExplosionField = ExplosionField.attach2Window(this);
+
+        randomGif = Constans.getRandomGif();
+        Glide.with(this)
+                .load(randomGif)
+                .preload();
 
         Intent extras = getIntent();
         if (extras != null) {
@@ -113,15 +122,7 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
             mSyllableButtonsContainer.getChildAt(i).setClickable(false);
         }
         blowKonfetti(mSyllableAnswerContainer);
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        View view = LayoutInflater.from(this).inflate(R.layout.congrats, null);
-        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        alertDialog.setView(view);
-        alertDialog.show();
-        Glide.with(this)
-                .load(Constans.getRandomGif())
-                .asGif()
-                .into((ImageView) view.findViewById(R.id.gif));
+        AlertDialog alertDialog = showEndingGif(randomGif);
 
         ActivitiesFeedback.addFeedback(new Feedback(wordString, Constans.ActType.IMAGE, missCounter));
         mCompositeDisposable.add(Completable.complete().delay(3, TimeUnit.SECONDS)
@@ -130,6 +131,20 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
                     alertDialog.dismiss();
                     finish();
                 }));
+    }
+
+    //TODO: Switch AlertDialog with a darkview and imageview covering the activity. (SystemUI wont show up)
+    @NonNull
+    private AlertDialog showEndingGif(int resource) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        View view = LayoutInflater.from(this).inflate(R.layout.congrats, null);
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.setView(view);
+        alertDialog.show();
+        Glide.with(this)
+                .load(resource)
+                .into((ImageView) view.findViewById(R.id.gif));
+        return alertDialog;
     }
 
     private void showAnswerClicked(Syllable syllable) {
@@ -218,7 +233,7 @@ public class SyllableActivityActivity extends LeaveLockedAppCompatActivity imple
         try {
             Glide.with(this)
                     .load(uri)
-                    .centerCrop()
+                    .apply(new RequestOptions().centerCrop())
                     .into(mImageView);
         } catch (Exception e) {
             e.printStackTrace();

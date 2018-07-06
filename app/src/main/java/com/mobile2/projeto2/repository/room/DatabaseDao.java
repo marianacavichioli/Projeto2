@@ -31,7 +31,7 @@ public abstract class DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public abstract void insert(WordData... wordData);
 
-    public void upsert(WordData wordData){
+    public void upsert(WordData wordData) {
         try {
             insert(wordData);
         } catch (Exception e) {
@@ -107,6 +107,14 @@ public abstract class DatabaseDao {
         return getAllWordsString()
                 .flatMapObservable(Observable::fromIterable)
                 .flatMapSingle(this::getWord)
+                .toList();
+    }
+
+    public Single<List<Word>> getAllWordsWithAsset() {
+        return getAllWordsString()
+                .flatMapObservable(Observable::fromIterable)
+                .flatMapSingle(this::getWord)
+                .filter(word -> word.getImageFilePath() != null || word.getVideoFilePath() != null)
                 .toList();
     }
 

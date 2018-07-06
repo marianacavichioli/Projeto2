@@ -43,13 +43,17 @@ public class Project2Application extends Application {
                 .fallbackToDestructiveMigration()
                 .build();
 
+        String pin = "";
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF_NAME, Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(PASSWORD_KEY)) {
             prePopulate();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(Constans.PASSWORD_KEY, pin);
+            editor.commit();
+        } else {
+            pin = sharedPreferences.getString(PASSWORD_KEY, "");
         }
-        String pin = sharedPreferences.getString(PASSWORD_KEY, "");
         Password.setPIN(pin);
-
     }
 
     @SuppressLint("CheckResult")

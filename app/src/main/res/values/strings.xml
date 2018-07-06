@@ -6,10 +6,10 @@
     <string name="hint_TartarugaVideo">tartaruga</string>
     <string name="iniciar">Iniciar</string>
     <string name="deletar">DELETAR</string>
-    <string name="Ajudaprimeiroparagrafo">Este app foi desenvolvido para o auxilio de assistidos em identificar imagens ou videos e, dentre as opcoes, escolher a alternativa correta</string>
-    <string name="Ajudasegundoparagrafo">    No caso de exercicio de imagem, e escolhido a partir da camera do dispositivo ou imagem da galeria um objeto a ser identificado. A partir dai aparecem varias silabas nois quais devem ser escolhidas as correspondentes a imagem em ordem correta. Para a criacao dessa atividade, e necessario que seja fornecida as silabas em ordem, separados por barra (/).</string>
-    <string name="Ajudaterceiroparagrafo">    Para o video, tambem escolhido da camera ou da galeria, sao utilizados nomes de outros objetos como opcoes alem da verdadeira que identifique o video em questao. Para a criacao dessa atividade somente e necessario o nome do objeto</string>
-    <string name="Ajudaquartoparagrafo">    Nao ha nenhuma atividade de inicio, portanto deve-se criar uma nova para aparecerem opcoes de executar a atividade</string>
+    <string name="Ajudaprimeiroparagrafo">\t Este app foi desenvolvido para o auxílio de assistidos em identificar imagens ou vídeos e, dentre as opções, escolher a alternativa correta.</string>
+    <string name="Ajudasegundoparagrafo">\t Não há nenhuma atividade de início, portanto deve-se criar uma nova para aparecerem opções de executar atividades. Para criar, ir em gerenciar e depois em criar.    </string>
+    <string name="Ajudaterceiroparagrafo">\t Para criar exercício de imagem, deve-se escolher uma imagem e as sílabas separadas por barra(/). </string>
+    <string name="Ajudaquartoparagrafo">\t Para o vídeo, também escolhido da câmera ou da galeria, é necessário o nome do objeto e um vídeo. Para poder criar e excluir, deve ser informada uma senha, que é escolhida pelo usuário na primeira inicialização.</string>
     <string name="Autores">Criado e desenvolvido por</string>
     <string name="Cesar">Cesar Abreu</string>
     <string name="Gustavo">Gustavo Nakagawa</string>
