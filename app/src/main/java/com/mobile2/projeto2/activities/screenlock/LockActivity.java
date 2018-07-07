@@ -76,8 +76,12 @@ public class LockActivity extends UIHidedAppCompatActivity implements PinLockLis
 
     @Override
     public void onBackPressed() {
-        setResult(LockedAppCompatActivity.NOT_UNLOCKED);
-        finish();
+        if (getCallingActivity().getClassName().contains("FeedbackActivity")) {
+            mToaster.toast(R.string.blocked_function);
+        } else {
+            setResult(LockedAppCompatActivity.NOT_UNLOCKED);
+            finish();
+        }
     }
 
     @Override

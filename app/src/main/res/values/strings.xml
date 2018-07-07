@@ -22,4 +22,5 @@
     <string name="sucess_change_password">Senha alterada com sucesso!</string>
     <string name="password_confirmation_failed">Senhas não conferem, tente novamente.</string>
     <string name="incorrect_password">Senha incorreta.</string>
+    <string name="blocked_function">Essa função está bloqueada.</string>
 </resources>
