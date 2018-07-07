@@ -2,12 +2,13 @@ package com.mobile2.projeto2.activities.screenlock;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
+import com.bumptech.glide.Glide;
 import com.mobile2.projeto2.R;
 import com.mobile2.projeto2.util.LockedAppCompatActivity;
 import com.mobile2.projeto2.util.Password;
@@ -29,6 +30,8 @@ public class LockActivity extends UIHidedAppCompatActivity implements PinLockLis
     PinLockView mPinLockView;
     @BindView(R.id.indicator_dots)
     IndicatorDots mIndicatorDots;
+    @BindView(R.id.gif)
+    ImageView mGifImageView;
 
     String mPIN = Password.getPIN();
     Toaster mToaster = new Toaster(this);
@@ -38,6 +41,11 @@ public class LockActivity extends UIHidedAppCompatActivity implements PinLockLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
         ButterKnife.bind(this);
+
+        Glide.with(this)
+                .load(R.drawable.entregar_celuluar)
+                .into(mGifImageView);
+
         mPinLockView.setPinLockListener(this);
         mPinLockView.setPinLength(4);
         mIndicatorDots.setPinLength(mPinLockView.getPinLength());
