@@ -82,6 +82,13 @@ public class Project2Application extends Application {
                 .subscribe();
         GeneralRepository.saveWord(new Word(strawberryUri.toString(), null, "mo", "ran", "go"))
                 .subscribe();
+
+        Uri cavaloVideoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cavalo_video);
+        Uri pandaVideoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.panda);
+        GeneralRepository.saveWord(new Word(null, cavaloVideoUri.toString(), "ca", "va", "lo"))
+                .subscribe();
+        GeneralRepository.saveWord(new Word(null, pandaVideoUri.toString(), "pan", "da"))
+                .subscribe();
     }
 
     public synchronized static ProjectDatabase getDatabase() {

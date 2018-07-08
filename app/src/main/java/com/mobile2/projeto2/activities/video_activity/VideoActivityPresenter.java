@@ -28,7 +28,7 @@ public class VideoActivityPresenter implements VideoActivityInterface.Presenter 
                 .subscribe(word -> {
                     this.mWord = word;
                     setupForWord();
-                    mView.setAsset(Uri.fromFile(new File(word.getVideoFilePath())));
+                    mView.setAsset(Uri.parse(word.getVideoFilePath()));
                 }, throwable -> {
                     throwable.printStackTrace();
                     mView.onError(throwable.getMessage());

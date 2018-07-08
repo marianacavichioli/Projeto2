@@ -138,7 +138,7 @@ public class CriarTemplateActivityVideo extends AppCompatActivity implements Cri
         if (mensagens == null) {
             Intent resultado = new Intent().putExtra("template", caminhoVideoComprimido);
 
-            GeneralRepository.saveWord(new Word(null, caminhoVideoComprimido, palavra))
+            GeneralRepository.saveWord(new Word(null, "file://" + caminhoVideoComprimido, palavra))
                     .subscribe(() -> {
                         setResult(Activity.RESULT_OK, resultado);
                         showToast("Atividade cadastrada com sucesso!");
