@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button_rounded_corner"
-        android:text="EXCLUIR"
+        android:text="DELETAR"
         android:textColor="#FFFF"
         app:layout_constraintBottom_toBottomOf="@id/management_button_create"
         app:layout_constraintEnd_toEndOf="parent"

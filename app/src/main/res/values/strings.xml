@@ -12,7 +12,7 @@
     <string name="Ajuda4">\t Para criar novas atividades, clique em gerenciar na tela de início e depois criar. </string>
     <string name="Ajuda5">\t Para criar uma atividade de imagem, escolha uma imagem ou tire uma foto e digite uma palavra que se relacione tendo as sílabas separadas por barra(/). </string>
     <string name="Ajuda6">\t Para criar uma atividade de vídeo, escolha ou grave um vídeo e digite uma palavra que se relacione com o vídeo. </string>
-    <string name="Ajuda7">\t EXCLUINDO ATIVIDADES: </string>
+    <string name="Ajuda7">\t DELETANDO ATIVIDADES: </string>
     <string name="Ajuda8">\t As palavras podem pertencer a três tipos distintos conforme indicados pelas colunas:  </string>
     <string name="Ajuda9">\t Banco de Dados: Excluir uma palavra do Banco de Dados fará com que nem ela nem suas sílabas possam mais ser opções em atividades </string>
     <string name="Ajuda10">\t Imagem ou Vídeo: Excluir uma atividade tipo Imagem ou Vídeo relacionada a uma palavra fará com que a atividade não possa mais ser executada, porém a palavra e suas sílabas ainda estarão no Banco de Dados e poderão ser opções em outras atividades </string>
